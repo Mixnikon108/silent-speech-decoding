@@ -190,4 +190,4 @@ if __name__ == "__main__":
     )
 
     np.savez(output_path, X=X_all, Y=Y_all, Subjects=Subjects_all)
-    print("✅ Saved to inner_speech_all_subjects.npz")
+    print(f"✅ Saved to {output_path}")
