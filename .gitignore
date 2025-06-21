@@ -1,1 +1,17 @@
 venv
+
+
+# Raw data
+data/raw/BCI2020/*
+!data/raw/BCI2020/.gitkeep
+
+data/raw/TOL/*
+!data/raw/TOL/.gitkeep
+
+# Processed data
+data/processed/BCI2020/*
+!data/processed/BCI2020/.gitkeep
+
+data/processed/TOL/*
+!data/processed/TOL/.gitkeep
+
