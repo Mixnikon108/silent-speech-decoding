@@ -18,7 +18,7 @@ import scipy.io as sio
 # ──────────────────────────── Rutas ────────────────────────────
 PROJECT_DIR = Path(__file__).resolve().parent.parent        # silent-speech-decoding
 RAW_DIR      = PROJECT_DIR / "data" / "raw" / "BCI2020"
-OUT_DIR      = PROJECT_DIR / "processed" / "raw" / "BCI2020"
+OUT_DIR      = PROJECT_DIR / "data" / "processed" / "BCI2020"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ───────────────────────────── Meta ────────────────────────────
@@ -28,25 +28,23 @@ CLASSES  = ['hello', 'help-me', 'stop', 'thank-you', 'yes']
 # ────────────────────── Utilidades de carga ────────────────────
 def load_subject(sid: str):
     """Devuelve (x_train, y_train, x_val, y_val) de un sujeto."""
-    train_file = RAW_DIR / "Training set"   / f"Data_Sample{sid}.mat"
-    val_file   = RAW_DIR / "Validation set" / f"Data_Sample{sid}.mat"
+    train_file = RAW_DIR / "training_set"   / f"data_sample{sid}.mat"
+    val_file   = RAW_DIR / "validation_set" / f"data_sample{sid}.mat"
 
-    mat_tr = sio.loadmat(train_file, squeeze_me=True)
-    mat_va = sio.loadmat(val_file,   squeeze_me=True)
+    mat_tr = sio.loadmat(train_file, squeeze_me=False, struct_as_record=False)
+    mat_va = sio.loadmat(val_file,   squeeze_me=False, struct_as_record=False)
 
-    # Datos y etiquetas (one-hot → entero)
-    x_tr = mat_tr["epo_train"]["x"].astype(np.float32)       # (C, T, N)
-    y_tr = mat_tr["epo_train"]["y"].argmax(0).astype(np.uint8)
-    x_va = mat_va["epo_validation"]["x"].astype(np.float32)
-    y_va = mat_va["epo_validation"]["y"].argmax(0).astype(np.uint8)
+    # Desempacar estructura: mat['epo_train'] es un array 1×1 de objetos MATLAB
+    epo_tr = mat_tr["epo_train"][0, 0]
+    epo_va = mat_va["epo_validation"][0, 0]
 
-    # Reordenar a (N, C, T) y pad temporal hasta 1000
-    x_tr = np.transpose(x_tr, (2, 0, 1))
-    x_va = np.transpose(x_va, (2, 0, 1))
-    x_tr = np.pad(x_tr, ((0, 0), (0, 0), (0, 5)), mode="edge")
-    x_va = np.pad(x_va, ((0, 0), (0, 0), (0, 5)), mode="edge")
+    x_tr = epo_tr.x.astype(np.float32)           # (C, T, N)
+    x_va = epo_va.x.astype(np.float32)
+    y_tr = epo_tr.y.argmax(axis=0).astype(np.uint8)
+    y_va = epo_va.y.argmax(axis=0).astype(np.uint8)
 
     return x_tr, y_tr, x_va, y_va
+
 
 # ────────────────────────── Construcción ───────────────────────
 if __name__ == "__main__":
