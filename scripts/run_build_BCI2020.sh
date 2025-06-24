@@ -18,5 +18,4 @@ source /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/venv/bin/a
 export PYTHONUNBUFFERED=1
 
 # ─────────────────────────── Comando ───────────────────────────────
-python -u scripts/preprocess_BCI.py
 python -u /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/preprocess_BCI.py

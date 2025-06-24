@@ -10,34 +10,36 @@ PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent      # …/proyect
 DEST_DIR     = PROJECT_ROOT / "data" / "raw" / "BCI2020"
 DEST_DIR.mkdir(parents=True, exist_ok=True)
 
-
 session = requests.Session()
 
 def get(url):
-    r = session.get(url, timeout=30) 
+    r = session.get(url, timeout=30)
     r.raise_for_status()
     return r.json()
 
 def paged_list(url):
+    """Itera sobre las páginas de la API de OSF."""
     while url:
         data = get(url)
-        for item in data["data"]:
-            yield item
+        yield from data["data"]
         url = data["links"].get("next")
 
 def walk(folder_url):
+    """Recorre todo el árbol devolviendo metadatos de TODOS los archivos."""
     for item in paged_list(folder_url):
-        if item["attributes"]["kind"] == "file" and item["attributes"]["name"].endswith(".mat"):
+        kind  = item["attributes"]["kind"]
+        if kind == "file":
             yield {
-                "remote_path": item["attributes"]["materialized_path"],
+                "remote_path":  item["attributes"]["materialized_path"],
                 "download_url": item["links"]["download"],
                 "expected_size": int(item["attributes"].get("size", 0))
             }
-        elif item["attributes"]["kind"] == "folder":
+        elif kind == "folder":
             sub = item["relationships"]["files"]["links"]["related"]["href"]
             yield from walk(sub)
 
 def remote2local(rpath: str) -> pathlib.Path:
+    """Traduce la ruta del repositorio OSF a la ruta local de destino."""
     parts = rpath.strip("/").split("/")[1:]
     parts = [p.replace(" ", "_").lower() for p in parts]
     return DEST_DIR.joinpath(*parts)
@@ -45,15 +47,13 @@ def remote2local(rpath: str) -> pathlib.Path:
 def preview(files):
     tree = defaultdict(list)
     for entry in files:
-        r = entry["remote_path"]
-        rel = remote2local(r).relative_to(DEST_DIR)
+        rel = remote2local(entry["remote_path"]).relative_to(DEST_DIR)
         tree[rel.parts[0]].append((rel.name, entry["expected_size"]))
     print("\nPrevisualización:\n")
     for folder in sorted(tree):
         print(f"{folder}/")
-        for f, size in sorted(tree[folder]):
-            size_mb = size / (1024 * 1024)
-            print(f"    {f} — {size_mb:.2f} MB")
+        for fname, size in sorted(tree[folder]):
+            print(f"    {fname} — {size/1_048_576:.2f} MB")
     print()
 
 def download(entry, bar: tqdm):
@@ -69,17 +69,17 @@ def download(entry, bar: tqdm):
             if chunk:
                 f.write(chunk)
                 bar.update(len(chunk))
-                bar.set_description(f"[{entry['remote_path'].split('/')[-2].lower()}] {dest.name[:35]}")
+                bar.set_description(f"[{dest.parent.name}] {dest.name[:35]}")
 
     # Verificación post-descarga
     actual = dest.stat().st_size
-    if actual != size:
+    if size and actual != size:
         print(f"\n❌ Archivo corrupto (esperado {size}, recibido {actual}): {dest}")
         dest.unlink()
 
 # ────────────── MAIN ───────────────────
 if __name__ == "__main__":
-    print("Buscando archivos .mat en Track #3…")
+    print("Buscando archivos en Track #3…")
     files = list(walk(ROOT_API))
     print(f"🔍 {len(files)} archivos encontrados\n")
 
@@ -87,10 +87,12 @@ if __name__ == "__main__":
     if input("¿Descargar? [y/N] ").strip().lower() != "y":
         sys.exit("❌ Cancelado.")
 
-    total_bytes = sum(f["expected_size"] for f in files if not remote2local(f["remote_path"]).exists())
+    # Solo contabilizamos los que aún no existen localmente
+    total_bytes = sum(f["expected_size"] for f in files
+                      if not remote2local(f["remote_path"]).exists())
 
     with tqdm(total=total_bytes, unit="B", unit_scale=True, ascii=True) as bar:
-        for i, entry in enumerate(files, 1):
+        for entry in files:
             local = remote2local(entry["remote_path"])
             if local.exists():
                 bar.update(entry["expected_size"])
