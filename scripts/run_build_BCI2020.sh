@@ -3,7 +3,7 @@
 #SBATCH --job-name=build_bcic2020
 #SBATCH --output=/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/output.txt
 #SBATCH --error=/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/errors.txt
-#SBATCH --time=00:20:00          # 10 min, ajusta si hace falta
+#SBATCH --time=02:00:00          # 10 min, ajusta si hace falta
 #SBATCH --cpus-per-task=4        # usa 4 hilos (carga/parsing .mat)
 #SBATCH --mem=8G                 # memoria suficiente para 64 ch × 1 k × ~3 k trials
 
