@@ -145,49 +145,51 @@ def extract_subject(
 # -----------------------------------------------------------------------------#
 #                                     main                                     #
 # -----------------------------------------------------------------------------#
-if __name__ == "__main__":
-    DATA_ROOT = pathlib.Path(__file__).resolve().parent.parent / "data" / "raw" / "TOL"
 
-    FS = 256
-    T_START, T_END = 1.5, 3.5
-    SUBJECTS = range(1, 11)
+DATA_ROOT = pathlib.Path(__file__).resolve().parent.parent / "data" / "raw" / "TOL"
 
-    all_x, all_y, subj_id = [], [], []
+FS = 256
+T_START, T_END = 1.5, 3.5
+SUBJECTS = range(1, 11)
 
-    for subj in SUBJECTS:
-        print(f"Loading subject {subj:02d} …")
-        try:
-            x, y = extract_subject(DATA_ROOT, subj, kind="eeg")
-            x = select_time_window(x, fs=FS, t_start=T_START, t_end=T_END)
+all_x, all_y, subj_id = [], [], []
 
-            classes = [["Up"], ["Down"], ["Right"], ["Left"]]
-            conditions = [["Inner"]] * 4
-            x, y_lbl = transform_for_classifier(x, y, classes, conditions)
+print("Cargando dataset TOL...")
 
-            all_x.append(x)
-            all_y.append(y_lbl)
-            subj_id.append(np.full_like(y_lbl, subj))
-            print(f"   ↳ {x.shape[0]} trials")
-        except Exception as exc:
-            print(f"   ⚠️  skipped (reason: {exc})")
+for subj in SUBJECTS:
+    print(f"Cargando sujeto {subj:02d}…")
+    try:
+        x, y = extract_subject(DATA_ROOT, subj, kind="eeg")
+        x = select_time_window(x, fs=FS, t_start=T_START, t_end=T_END)
 
-    if not all_x:
-        raise RuntimeError("No subjects processed successfully.")
+        classes = [["Up"], ["Down"], ["Right"], ["Left"]]
+        conditions = [["Inner"]] * 4
+        x, y_lbl = transform_for_classifier(x, y, classes, conditions)
 
-    X_all = np.vstack(all_x)
-    Y_all = np.concatenate(all_y)
-    Subjects_all = np.concatenate(subj_id)
+        all_x.append(x)
+        all_y.append(y_lbl)
+        subj_id.append(np.full_like(y_lbl, subj))
+        print(f"   ↳ {x.shape[0]} trials")
+    except Exception as exc:
+        print(f"   ⚠️  skipped (reason: {exc})")
 
-    print("\n==== SUMMARY ====")
-    print(f"Total trials : {X_all.shape[0]}")
-    print(f"Data shape   : {X_all.shape}  # trials × channels × samples")
-    print(f"Labels shape : {Y_all.shape}")
-    print(f"Subjects     : {Subjects_all.shape}")
+if not all_x:
+    raise RuntimeError("No subjects processed successfully.")
+
+X_all = np.vstack(all_x)
+Y_all = np.concatenate(all_y)
+Subjects_all = np.concatenate(subj_id)
+
+print("\n Dimensiones del dataset TOL:")
+print(f"  - Total trials : {X_all.shape[0]}")
+print(f"  - Data shape   : {X_all.shape}  # trials × channels × samples")
+print(f"  - Labels shape : {Y_all.shape}")
+print(f"  - Subjects     : {Subjects_all.shape}")
 
 
-    output_path = (
-    pathlib.Path(__file__).resolve().parent.parent / "data" / "processed" / "TOL" / "inner_speech_all_subjects.npz"
-    )
+output_path = (
+pathlib.Path(__file__).resolve().parent.parent / "data" / "processed" / "TOL" / "inner_speech_all_subjects.npz"
+)
 
-    np.savez(output_path, X=X_all, Y=Y_all, Subjects=Subjects_all)
-    print(f"✅ Saved to {output_path}")
+np.savez(output_path, X=X_all, Y=Y_all, Subjects=Subjects_all)
+print(f"\n✅ Dataset TOL guardado en: {output_path}")
