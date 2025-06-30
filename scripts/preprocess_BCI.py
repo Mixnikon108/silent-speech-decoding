@@ -269,7 +269,7 @@ print(f"  - Test       : X = {X_test.shape},  y = {y_test.shape}")
 
 filtered_dataset_file = processed_dir / "filtered_BCI2020.npz"
 
-np.savez_compressed(raw_dataset_file,
+np.savez_compressed(filtered_dataset_file,
                     X_train_f=X_train_f, y_train_f=y_train_f,
                     X_val_f=X_val_f,     y_val_f=y_val_f,
                     X_test_f=X_test_f,   y_test_f=y_test_f,

@@ -1,0 +1,36 @@
+Cargando raw dataset BCI2020...
+[dataset raw] Sujeto: 01/15
+Sujeto 01: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 02/15
+Sujeto 02: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 03/15
+Sujeto 03: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 04/15
+Sujeto 04: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 05/15
+Sujeto 05: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 06/15
+Sujeto 06: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 07/15
+Sujeto 07: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 08/15
+Sujeto 08: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 09/15
+Sujeto 09: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 10/15
+Sujeto 10: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 11/15
+Sujeto 11: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 12/15
+Sujeto 12: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 13/15
+Sujeto 13: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 14/15
+Sujeto 14: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset raw] Sujeto: 15/15
+Sujeto 15: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+
+ Dimensiones del dataset raw:
+  - Train      : X = (795, 64, 4500), y = (5, 4500)
+  - Validation : X = (795, 64, 750),  y = (5, 750)
+  - Test       : X = (795, 64, 750),  y = (5, 750)
