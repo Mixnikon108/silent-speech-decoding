@@ -34,3 +34,7 @@ Sujeto 15: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val 
   - Train      : X = (795, 64, 4500), y = (5, 4500)
   - Validation : X = (795, 64, 750),  y = (5, 750)
   - Test       : X = (795, 64, 750),  y = (5, 750)
+
+✅ Dataset raw guardado en: data/processed/BCI2020/raw_BCI2020.npz
+Cargando dataset filtrado BCI2020...
+[dataset filtered] Sujeto: 01/15
