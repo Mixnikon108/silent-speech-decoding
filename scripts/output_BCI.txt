@@ -38,3 +38,84 @@ Sujeto 15: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val 
 ✅ Dataset raw guardado en: data/processed/BCI2020/raw_BCI2020.npz
 Cargando dataset filtrado BCI2020...
 [dataset filtered] Sujeto: 01/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 8.3s.
+Sujeto 01: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 02/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.6s.
+Sujeto 02: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 03/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.3s.
+Sujeto 03: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 04/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.0s.
+Sujeto 04: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 05/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.5s.
+Sujeto 05: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 06/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.8s.
+Sujeto 06: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 07/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 8.8s.
+Sujeto 07: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 08/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 5.0s.
+Sujeto 08: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 09/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 5.2s.
+Sujeto 09: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 10/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 4.7s.
+Sujeto 10: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 11/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.9s.
+Sujeto 11: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 12/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 6.6s.
+Sujeto 12: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 13/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 7.4s.
+Sujeto 13: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 14/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 7.0s.
+Sujeto 14: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 15/15
+Fitting ICA to data using 64 channels (please be patient, this may take a while)
+Selecting by number: 25 components
+Fitting ICA took 5.1s.
+Sujeto 15: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+
+ Dimensiones del dataset filtrado:
+  - Train      : X = (795, 64, 4500), y = (5, 4500)
+  - Validation : X = (795, 64, 750),  y = (5, 750)
+  - Test       : X = (795, 64, 750),  y = (5, 750)
+
+✅ Dataset filtrado guardado en: data/processed/BCI2020/filtered_BCI2020.npz
