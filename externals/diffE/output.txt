@@ -98,3 +98,8 @@ f1-score:  7.25% best: 13.69%
 recall:    20.27% best: 21.47%
 precision: 34.04% best: 34.04%
 auc:       51.79% best: 52.76%
+accuracy:  20.27% best: 21.47%
+f1-score:  7.25% best: 13.69%
+recall:    20.27% best: 21.47%
+precision: 34.04% best: 34.04%
+auc:       51.63% best: 52.76%
