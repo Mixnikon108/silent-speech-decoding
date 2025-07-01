@@ -270,9 +270,9 @@ print(f"  - Test       : X = {X_test.shape},  y = {y_test.shape}")
 filtered_dataset_file = processed_dir / "filtered_BCI2020.npz"
 
 np.savez_compressed(filtered_dataset_file,
-                    X_train_f=X_train_f, y_train_f=y_train_f,
-                    X_val_f=X_val_f,     y_val_f=y_val_f,
-                    X_test_f=X_test_f,   y_test_f=y_test_f,
+                    X_train=X_train_f, y_train=y_train_f,
+                    X_val=X_val_f,     y_val=y_val_f,
+                    X_test=X_test_f,   y_test=y_test_f,
                     classes=np.array(classes, dtype=object))
 
 print(f"\n✅ Dataset filtrado guardado en: {filtered_dataset_file.relative_to(project_dir)}")
