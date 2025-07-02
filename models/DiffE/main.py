@@ -51,6 +51,8 @@ def set_seed(seed: int = 42) -> None:
     # CuDNN determinista ‑ necesario para reproducir
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+    print(f"[setup] Semilla fijada a {seed}")
+    
 
 
 def build_optim_and_sched(
@@ -62,6 +64,8 @@ def build_optim_and_sched(
     step_size: int = 150,
     ) -> Tuple[Tuple[optim.Optimizer, optim.lr_scheduler._LRScheduler], ...]:
     """Devuelve parejas *(optimizer, scheduler)* para DDPM y Diff‑E."""
+    print(f"[setup] Configurando optimizadores y schedulers: base_lr={base_lr}, max_lr={max_lr}, step_size={step_size}")
+
     opt_ddpm = optim.RMSprop(ddpm.parameters(), lr=base_lr)
     opt_diffe = optim.RMSprop(diffe.parameters(), lr=base_lr)
 
@@ -98,7 +102,6 @@ def train_epoch(
     alpha: float,
 ) -> None:
     """Ejecuta una época de entrenamiento completa."""
-
     ddpm.train()
     diffe.train()
 
@@ -115,8 +118,8 @@ def train_epoch(
         # ------------------ DDPM ------------------
         opt_ddpm.zero_grad(set_to_none=True)
         x_hat, down, up, noise, t = ddpm(x)
-        loss_ddpm = crit_rec(x_hat, x)
-        loss_ddpm.backward()
+        loss_ddpm = F.l1_loss(x_hat, x, reduction="none")
+        loss_ddpm.mean().backward()
         opt_ddpm.step()
         sched_ddpm.step()
 
@@ -143,7 +146,7 @@ def main() -> None:
 
     # --- Datos & dispositivo
     parser.add_argument("--dataset_file", type=str, required=True, help="Ruta al .npz pre‑procesado")
-    parser.add_argument("--device", type=str, default="cuda:0", help="cpu | cuda:idx")
+    parser.add_argument("--device", type=str, default="cpu", help="cpu | cuda:idx")
 
     # --- Hyper‑parámetros training
     parser.add_argument("--num_epochs", type=int, default=200)
@@ -161,17 +164,19 @@ def main() -> None:
     parser.add_argument("--fc_dim", type=int, default=512)
 
     args = parser.parse_args()
+    print(f"[config] Parámetros: {args}")
 
     # ------------------ Seed & device ------------------
     set_seed(args.seed)
     device = torch.device(args.device)
+    print(f"[setup] Usando dispositivo: {device}")
 
     # ------------------ Datos -------------------------
     dataset_file = Path(args.dataset_file)
     X_train, y_train, X_val, y_val, X_test, y_test = load_data(dataset_file=dataset_file)
 
     loaders = {}
-    loaders["train"], loaders["val"], loaders["test"] = get_dataloader(
+    loaders["train"], loaders["val"], _ = get_dataloader(
         X_train,
         y_train,
         X_val,
@@ -184,6 +189,7 @@ def main() -> None:
     )
 
     # ------------------ Modelos -----------------------
+    print("[model] Inicializando modelos...")
     ddpm_model = ConditionalUNet(in_channels=args.channels, n_feat=args.ddpm_dim).to(device)
     ddpm = DDPM(nn_model=ddpm_model, betas=(1e-6, 1e-2), n_T=args.n_T, device=device).to(device)
 
@@ -193,22 +199,30 @@ def main() -> None:
 
     diffe = DiffE(encoder, decoder, fc).to(device)
 
+
+
     # ------------------ Optimizadores / EMA ----------
     (opt_ddpm, sched_ddpm), (opt_diffe, sched_diffe) = build_optim_and_sched(ddpm, diffe)
     ema_fc = EMA(diffe.fc, beta=0.95, update_after_step=100, update_every=10)
+    print("[setup] EMA configurada en el clasificatorio (beta=0.95)")
 
     criterions = (nn.L1Loss(), nn.MSELoss())
 
     # ------------------ Training loop ----------------
     best_metrics: Dict[str, float] = {}
+    print(f"[train] Inicio del bucle de entrenamiento por {args.num_epochs} épocas")
 
     pbar = tqdm(
         range(args.num_epochs),
         ncols=88,
-        bar_format="{l_bar}{bar:40}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, best acc: {postfix[best_acc]:.2%}]",
+        desc="Overall",
+        unit="epoch",
+        dynamic_ncols=True,
+        bar_format="{l_bar}{bar:40}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {postfix}]"
     )
 
     for epoch in pbar:
+        print(f"\n[train] ===== Época {epoch+1}/{args.num_epochs} =====")
         train_epoch(
             ddpm=ddpm,
             diffe=diffe,
@@ -227,20 +241,23 @@ def main() -> None:
             metrics_full = evaluate(
                 diffe.encoder,
                 ema_fc,
-                loaders["test"],
+                loaders["val"],
                 device,
                 num_classes=args.num_classes,
             )
-        metrics = metrics_full["metrics"]  # nos quedamos con las métricas primarias
-
+        metrics = metrics_full["metrics"]
         acc = metrics["accuracy"]
+        f1 = metrics["macro_f1"]
+        print(f"[eval] Epoch {epoch+1} — acc: {acc:.4f}, macro_f1: {f1:.4f}")
+
         if acc > best_metrics.get("accuracy", 0.0):
             best_metrics = metrics
+            print(f"[eval] ¡Nueva mejor accuracy: {acc:.4f}!")
 
         pbar.set_postfix(best_acc=best_metrics.get("accuracy", 0.0))
 
     # ------------------ Resumen final ----------------
-    print("\nMejores métricas alcanzadas:")
+    print("\n[train] Mejores métricas alcanzadas:")
     for k, v in best_metrics.items():
         print(f"  {k:>16s}: {v:.4f}")
 
