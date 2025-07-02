@@ -1,252 +1,249 @@
-from models import *
-from utils import *
-from pathlib import Path
+"""
+train.py — Lanzador de entrenamiento para Diff‑E (EEG imagined‑speech).
+
+Ejemplo de uso:
+    python train.py \
+        --dataset_file data/processed/BCI2020/filtered_BCI2020.npz \
+        --num_epochs 200 \
+        --device cuda:0
+
+El script centraliza la configuración vía CLI, simplifica las barras de
+progreso y divide la lógica en funciones reutilizables para facilitar la
+mantenimiento.
+"""
+from __future__ import annotations
+
+import argparse
 import random
+from pathlib import Path
+from typing import Dict, Tuple
+
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
+import torch.optim as optim
 from ema_pytorch import EMA
-from tqdm import tqdm
-from sklearn.metrics import (
-    f1_score,
-    roc_auc_score,
-    precision_score,
-    recall_score,
-    top_k_accuracy_score,
+from tqdm.auto import tqdm
+
+# --- Repos propios ---------------------------------------------------------
+from utils import load_data, get_dataloader  # función *.npz del proyecto
+from models import (
+    ConditionalUNet,
+    DDPM,
+    DiffE,
+    Encoder,
+    Decoder,
+    LinearClassifier,
 )
+from evaluation import evaluate  # versión extendida con baseline aleatorio
 
-# Evaluate function
-def evaluate(encoder, fc, generator, device, num_classes=5):
-    labels = np.arange(0, num_classes)
-    Y = []
-    Y_hat = []
-    for x, y in generator:
-        x, y = x.to(device), y.type(torch.LongTensor).to(device)
-        encoder_out = encoder(x)
-        y_hat = fc(encoder_out[1])
-        y_hat = F.softmax(y_hat, dim=1)
+# ---------------------------------------------------------------------------
+# Utilidades auxiliares
+# ---------------------------------------------------------------------------
 
-        Y.append(y.detach().cpu())
-        Y_hat.append(y_hat.detach().cpu())
-
-    # List of tensors to tensor to numpy
-    Y = torch.cat(Y, dim=0).numpy()  # (N, )
-    Y_hat = torch.cat(Y_hat, dim=0).numpy()  # (N, 13): has to sum to 1 for each row
-
-    # Accuracy and Confusion Matrix
-    accuracy = top_k_accuracy_score(Y, Y_hat, k=1, labels=labels)
-    f1 = f1_score(Y, Y_hat.argmax(axis=1), average="macro", labels=labels)
-    recall = recall_score(Y, Y_hat.argmax(axis=1), average="macro", labels=labels)
-    precision = precision_score(Y, Y_hat.argmax(axis=1), average="macro", labels=labels)
-    auc = roc_auc_score(Y, Y_hat, average="macro", multi_class="ovo", labels=labels)
-
-    metrics = {
-        "accuracy": accuracy,
-        "f1": f1,
-        "recall": recall,
-        "precision": precision,
-        "auc": auc,
-    }
-    # df_cm = pd.DataFrame(confusion_matrix(Y, Y_hat.argmax(axis=1)))
-    return metrics
-
-
-
-def train():
-    device = "cpu"
-    device = torch.device(device)
-    batch_size = 250
-    batch_size2 = 32 # Son 50 muestras
-    seed = 42
+def set_seed(seed: int = 42) -> None:
+    """Fija *todas* las seeds para reproducibilidad."""
     random.seed(seed)
+    np.random.seed(seed)
     torch.manual_seed(seed)
-    print("Random Seed: ", seed)
+    torch.cuda.manual_seed_all(seed)
+    # CuDNN determinista ‑ necesario para reproducir
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
-    # EEG data path
-    project_dir = Path(__file__).resolve().parent.parent.parent   
-    dataset_file = project_dir / "data" / "processed" / "BCI2020"  / "filtered_BCI2020.npz"
 
-    # Load data
+def build_optim_and_sched(
+    ddpm: nn.Module,
+    diffe: nn.Module,
+    *,
+    base_lr: float = 9e-5,
+    max_lr: float = 1.5e-3,
+    step_size: int = 150,
+    ) -> Tuple[Tuple[optim.Optimizer, optim.lr_scheduler._LRScheduler], ...]:
+    """Devuelve parejas *(optimizer, scheduler)* para DDPM y Diff‑E."""
+    opt_ddpm = optim.RMSprop(ddpm.parameters(), lr=base_lr)
+    opt_diffe = optim.RMSprop(diffe.parameters(), lr=base_lr)
+
+    sched_ddpm = optim.lr_scheduler.CyclicLR(
+        opt_ddpm,
+        base_lr=base_lr,
+        max_lr=max_lr,
+        step_size_up=step_size,
+        cycle_momentum=False,
+        mode="exp_range",
+        gamma=0.9998,
+    )
+    sched_diffe = optim.lr_scheduler.CyclicLR(
+        opt_diffe,
+        base_lr=base_lr,
+        max_lr=max_lr,
+        step_size_up=step_size,
+        cycle_momentum=False,
+        mode="exp_range",
+        gamma=0.9998,
+    )
+    return (opt_ddpm, sched_ddpm), (opt_diffe, sched_diffe)
+
+
+def train_epoch(
+    *,
+    ddpm: nn.Module,
+    diffe: DiffE,
+    loaders: Dict[str, torch.utils.data.DataLoader],
+    criterions: Tuple[nn.Module, nn.Module],
+    optimizers: Dict[str, Tuple[optim.Optimizer, optim.lr_scheduler._LRScheduler]],
+    ema_fc: EMA,
+    device: torch.device,
+    alpha: float,
+) -> None:
+    """Ejecuta una época de entrenamiento completa."""
+
+    ddpm.train()
+    diffe.train()
+
+    # Desempaquetado
+    opt_ddpm, sched_ddpm = optimizers["ddpm"]
+    opt_diffe, sched_diffe = optimizers["diffe"]
+    crit_rec, crit_cls = criterions
+
+    for x, y in loaders["train"]:
+        x = x.to(device)
+        y = y.to(device, dtype=torch.long)
+        y_onehot = F.one_hot(y, num_classes=diffe.fc.linear_out[-1].out_features).float().to(device)
+
+        # ------------------ DDPM ------------------
+        opt_ddpm.zero_grad(set_to_none=True)
+        x_hat, down, up, noise, t = ddpm(x)
+        loss_ddpm = crit_rec(x_hat, x)
+        loss_ddpm.backward()
+        opt_ddpm.step()
+        sched_ddpm.step()
+
+        # ------------------ Diff‑E ----------------
+        opt_diffe.zero_grad(set_to_none=True)
+        decoder_out, logits = diffe(x, (x_hat, down, up, t))
+        loss_gap = crit_rec(decoder_out, loss_ddpm.detach())
+        loss_cls = crit_cls(logits, y_onehot)
+        (loss_gap + alpha * loss_cls).backward()
+        opt_diffe.step()
+        sched_diffe.step()
+
+        ema_fc.update()
+
+
+# ---------------------------------------------------------------------------
+# Entrenamiento
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Entrenamiento de Diff‑E para imagined‑speech EEG"
+    )
+
+    # --- Datos & dispositivo
+    parser.add_argument("--dataset_file", type=str, required=True, help="Ruta al .npz pre‑procesado")
+    parser.add_argument("--device", type=str, default="cuda:0", help="cpu | cuda:idx")
+
+    # --- Hyper‑parámetros training
+    parser.add_argument("--num_epochs", type=int, default=200)
+    parser.add_argument("--batch_train", type=int, default=250)
+    parser.add_argument("--batch_eval", type=int, default=32)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--alpha", type=float, default=0.1, help="Peso del término de clasificación")
+
+    # --- Parámetros modelo
+    parser.add_argument("--num_classes", type=int, default=5)
+    parser.add_argument("--channels", type=int, default=64)
+    parser.add_argument("--n_T", type=int, default=1000)
+    parser.add_argument("--ddpm_dim", type=int, default=128)
+    parser.add_argument("--encoder_dim", type=int, default=256)
+    parser.add_argument("--fc_dim", type=int, default=512)
+
+    args = parser.parse_args()
+
+    # ------------------ Seed & device ------------------
+    set_seed(args.seed)
+    device = torch.device(args.device)
+
+    # ------------------ Datos -------------------------
+    dataset_file = Path(args.dataset_file)
     X_train, y_train, X_val, y_val, X_test, y_test = load_data(dataset_file=dataset_file)
-    
-    # Dataloader
-    train_loader, _, test_loader = get_dataloader(
-        X_train, y_train, X_val, y_val, X_test, y_test,
-        batch_size, batch_size2, shuffle=True
+
+    loaders = {}
+    loaders["train"], loaders["val"], loaders["test"] = get_dataloader(
+        X_train,
+        y_train,
+        X_val,
+        y_val,
+        X_test,
+        y_test,
+        args.batch_train,
+        args.batch_eval,
+        shuffle=True,
     )
 
-    # Define model
-    num_classes = 5
-    channels = 64
+    # ------------------ Modelos -----------------------
+    ddpm_model = ConditionalUNet(in_channels=args.channels, n_feat=args.ddpm_dim).to(device)
+    ddpm = DDPM(nn_model=ddpm_model, betas=(1e-6, 1e-2), n_T=args.n_T, device=device).to(device)
 
-    n_T = 1000
-    ddpm_dim = 128
-    encoder_dim = 256
-    fc_dim = 512
+    encoder = Encoder(in_channels=args.channels, dim=args.encoder_dim).to(device)
+    decoder = Decoder(in_channels=args.channels, n_feat=args.ddpm_dim, encoder_dim=args.encoder_dim).to(device)
+    fc = LinearClassifier(args.encoder_dim, args.fc_dim, emb_dim=args.num_classes).to(device)
 
-    ddpm_model = ConditionalUNet(in_channels=channels, n_feat=ddpm_dim).to(device)
-    ddpm = DDPM(nn_model=ddpm_model, betas=(1e-6, 1e-2), n_T=n_T, device=device).to(
-        device
-    )
-    encoder = Encoder(in_channels=channels, dim=encoder_dim).to(device)
-    decoder = Decoder(
-        in_channels=channels, n_feat=ddpm_dim, encoder_dim=encoder_dim
-    ).to(device)
-    fc = LinearClassifier(encoder_dim, fc_dim, emb_dim=num_classes).to(device)
     diffe = DiffE(encoder, decoder, fc).to(device)
 
-    print("ddpm size: ", sum(p.numel() for p in ddpm.parameters()))
-    print("encoder size: ", sum(p.numel() for p in encoder.parameters()))
-    print("decoder size: ", sum(p.numel() for p in decoder.parameters()))
-    print("fc size: ", sum(p.numel() for p in fc.parameters()))
+    # ------------------ Optimizadores / EMA ----------
+    (opt_ddpm, sched_ddpm), (opt_diffe, sched_diffe) = build_optim_and_sched(ddpm, diffe)
+    ema_fc = EMA(diffe.fc, beta=0.95, update_after_step=100, update_every=10)
 
-    # Criterion
-    criterion = nn.L1Loss()
-    criterion_class = nn.MSELoss()
+    criterions = (nn.L1Loss(), nn.MSELoss())
 
-    # Define optimizer
-    base_lr, lr = 9e-5, 1.5e-3
-    optim1 = optim.RMSprop(ddpm.parameters(), lr=base_lr)
-    optim2 = optim.RMSprop(diffe.parameters(), lr=base_lr)
+    # ------------------ Training loop ----------------
+    best_metrics: Dict[str, float] = {}
 
-    # EMAs
-    fc_ema = EMA(diffe.fc, beta=0.95, update_after_step=100, update_every=10,)
-
-    step_size = 150
-    scheduler1 = optim.lr_scheduler.CyclicLR(
-        optimizer=optim1,
-        base_lr=base_lr,
-        max_lr=lr,
-        step_size_up=step_size,
-        mode="exp_range",
-        cycle_momentum=False,
-        gamma=0.9998,
+    pbar = tqdm(
+        range(args.num_epochs),
+        ncols=88,
+        bar_format="{l_bar}{bar:40}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, best acc: {postfix[best_acc]:.2%}]",
     )
-    scheduler2 = optim.lr_scheduler.CyclicLR(
-        optimizer=optim2,
-        base_lr=base_lr,
-        max_lr=lr,
-        step_size_up=step_size,
-        mode="exp_range",
-        cycle_momentum=False,
-        gamma=0.9998,
-    )
-    # Train & Evaluate
-    num_epochs = 20
-    test_period = 1
-    start_test = test_period
-    alpha = 0.1
 
-    best_acc = 0
-    best_f1 = 0
-    best_recall = 0
-    best_precision = 0
-    best_auc = 0
+    for epoch in pbar:
+        train_epoch(
+            ddpm=ddpm,
+            diffe=diffe,
+            loaders=loaders,
+            criterions=criterions,
+            optimizers={"ddpm": (opt_ddpm, sched_ddpm), "diffe": (opt_diffe, sched_diffe)},
+            ema_fc=ema_fc,
+            device=device,
+            alpha=args.alpha,
+        )
 
-    with tqdm(
-        total=num_epochs, desc=f"Method ALL - Processing subject"
-    ) as pbar:
-        for epoch in range(num_epochs):
-            ddpm.train()
-            diffe.train()
+        # --- Evaluación ---
+        ddpm.eval()
+        diffe.eval()
+        with torch.no_grad():
+            metrics_full = evaluate(
+                diffe.encoder,
+                ema_fc,
+                loaders["test"],
+                device,
+                num_classes=args.num_classes,
+            )
+        metrics = metrics_full["metrics"]  # nos quedamos con las métricas primarias
 
-            ############################## Train ###########################################
-            for x, y in train_loader:
-                x, y = x.to(device), y.type(torch.LongTensor).to(device)
-                y_cat = F.one_hot(y, num_classes=num_classes).type(torch.FloatTensor).to(device)
-                # Train DDPM
-                optim1.zero_grad()
-                x_hat, down, up, noise, t = ddpm(x)
+        acc = metrics["accuracy"]
+        if acc > best_metrics.get("accuracy", 0.0):
+            best_metrics = metrics
 
-                loss_ddpm = F.l1_loss(x_hat, x, reduction="none")
-                loss_ddpm.mean().backward()
-                optim1.step()
-                ddpm_out = x_hat, down, up, t
+        pbar.set_postfix(best_acc=best_metrics.get("accuracy", 0.0))
 
-                # Train Diff-E
-                optim2.zero_grad()
-                decoder_out, fc_out = diffe(x, ddpm_out)
-
-                loss_gap = criterion(decoder_out, loss_ddpm.detach())
-                loss_c = criterion_class(fc_out, y_cat)
-                loss = loss_gap + alpha * loss_c
-                loss.backward()
-                optim2.step()
-
-                # Optimizer scheduler step
-                scheduler1.step()
-                scheduler2.step()
-
-                # EMA update
-                fc_ema.update()
-
-            ############################## Test ###########################################
-            with torch.no_grad():
-                if epoch > start_test:
-                    test_period = 1
-                if epoch % test_period == 0:
-                    ddpm.eval()
-                    diffe.eval()
-
-                    metrics_test = evaluate(diffe.encoder, fc_ema, test_loader, device, num_classes=num_classes)
-
-                    acc = metrics_test["accuracy"]
-                    f1 = metrics_test["f1"]
-                    recall = metrics_test["recall"]
-                    precision = metrics_test["precision"]
-                    auc = metrics_test["auc"]
-
-                    best_acc_bool = acc > best_acc
-                    best_f1_bool = f1 > best_f1
-                    best_recall_bool = recall > best_recall
-                    best_precision_bool = precision > best_precision
-                    best_auc_bool = auc > best_auc
-
-                    if best_acc_bool:
-                        best_acc = acc
-                        # torch.save(diffe.state_dict(), f'./models/diffe_{subject}.pt')
-                    if best_f1_bool:
-                        best_f1 = f1
-                    if best_recall_bool:
-                        best_recall = recall
-                    if best_precision_bool:
-                        best_precision = precision
-                    if best_auc_bool:
-                        best_auc = auc
-
-                    # print("Subject: {0}".format(subject))
-                    # print("ddpm test loss: {0:.4f}".format(t_test_loss_ddpm/len(test_generator)))
-                    # print("encoder test loss: {0:.4f}".format(t_test_loss_ed/len(test_generator)))
-                    print("accuracy:  {0:.2f}%".format(acc*100), "best: {0:.2f}%".format(best_acc*100))
-                    print("f1-score:  {0:.2f}%".format(f1*100), "best: {0:.2f}%".format(best_f1*100))
-                    print("recall:    {0:.2f}%".format(recall*100), "best: {0:.2f}%".format(best_recall*100))
-                    print("precision: {0:.2f}%".format(precision*100), "best: {0:.2f}%".format(best_precision*100))
-                    print("auc:       {0:.2f}%".format(auc*100), "best: {0:.2f}%".format(best_auc*100))
-                    # writer.add_scalar(f"EEGNet/Accuracy/subject_{subject}", acc*100, epoch)
-                    # writer.add_scalar(f"EEGNet/F1-score/subject_{subject}", f1*100, epoch)
-                    # writer.add_scalar(f"EEGNet/Recall/subject_{subject}", recall*100, epoch)
-                    # writer.add_scalar(f"EEGNet/Precision/subject_{subject}", precision*100, epoch)
-                    # writer.add_scalar(f"EEGNet/AUC/subject_{subject}", auc*100, epoch)
-
-                    # if best_acc_bool or best_f1_bool or best_recall_bool or best_precision_bool or best_auc_bool:
-                    #     performance = {'subject': subject,
-                    #                 'epoch': epoch,
-                    #                 'accuracy': best_acc*100,
-                    #                 'f1_score': best_f1*100,
-                    #                 'recall': best_recall*100,
-                    #                 'precision': best_precision*100,
-                    #                 'auc': best_auc*100
-                    #                 }
-                    #     with open(output_file, 'a') as f:
-                    #         f.write(f"{performance['subject']}, {performance['epoch']}, {performance['accuracy']}, {performance['f1_score']}, {performance['recall']}, {performance['precision']}, {performance['auc']}\n")
-                    description = f"Best accuracy: {best_acc*100:.2f}%"
-                    pbar.set_description(
-                        f"Method ALL - Processing subject - {description}"
-                    )
-            pbar.update(1)
+    # ------------------ Resumen final ----------------
+    print("\nMejores métricas alcanzadas:")
+    for k, v in best_metrics.items():
+        print(f"  {k:>16s}: {v:.4f}")
 
 
 if __name__ == "__main__":
-    train()
+    main()
