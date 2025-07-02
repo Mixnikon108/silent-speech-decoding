@@ -10,6 +10,11 @@ Ejemplo de uso:
 El script centraliza la configuración vía CLI, simplifica las barras de
 progreso y divide la lógica en funciones reutilizables para facilitar la
 mantenimiento.
+
+
+python main.py     --dataset_file C:/Users/jorge/Desktop/silent-speech-decoding/data/processed/BCI2020/filtered_BCI2020.npz    --device cpu     --num_epochs 1     --batch_train 250     --batch_eval 32     --seed 42     --alpha 0.1     --num_classes 5     --channels 64     --n_T 1000     --ddpm_dim 128     --encoder_dim 256     --fc_dim 512
+
+
 """
 from __future__ import annotations
 
@@ -132,6 +137,7 @@ def train_epoch(
         opt_diffe.step()
         sched_diffe.step()
 
+        # EMA update
         ema_fc.update()
 
 
@@ -190,11 +196,21 @@ def main() -> None:
 
     # ------------------ Modelos -----------------------
     print("[model] Inicializando modelos...")
-    ddpm_model = ConditionalUNet(in_channels=args.channels, n_feat=args.ddpm_dim).to(device)
-    ddpm = DDPM(nn_model=ddpm_model, betas=(1e-6, 1e-2), n_T=args.n_T, device=device).to(device)
+    ddpm_model = ConditionalUNet(in_channels=args.channels, 
+                                 n_feat=args.ddpm_dim).to(device)
+    
+    ddpm = DDPM(nn_model=ddpm_model, 
+                betas=(1e-6, 1e-2), 
+                n_T=args.n_T, 
+                device=device).to(device)
 
-    encoder = Encoder(in_channels=args.channels, dim=args.encoder_dim).to(device)
-    decoder = Decoder(in_channels=args.channels, n_feat=args.ddpm_dim, encoder_dim=args.encoder_dim).to(device)
+    encoder = Encoder(in_channels=args.channels, 
+                      dim=args.encoder_dim).to(device)
+    
+    decoder = Decoder(in_channels=args.channels, 
+                      n_feat=args.ddpm_dim, 
+                      encoder_dim=args.encoder_dim).to(device)
+    
     fc = LinearClassifier(args.encoder_dim, args.fc_dim, emb_dim=args.num_classes).to(device)
 
     diffe = DiffE(encoder, decoder, fc).to(device)
