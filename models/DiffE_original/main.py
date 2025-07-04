@@ -59,7 +59,6 @@ def set_seed(seed: int = 42) -> None:
     print(f"[setup] Semilla fijada a {seed}")
     
 
-
 def build_optim_and_sched(
     ddpm: nn.Module,
     diffe: nn.Module,
@@ -160,6 +159,7 @@ def main() -> None:
     parser.add_argument("--batch_eval", type=int, default=32)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--alpha", type=float, default=0.1, help="Peso del término de clasificación")
+    parser.add_argument("--subject_id", type=int, default=None)
 
     # --- Parámetros modelo
     parser.add_argument("--num_classes", type=int, default=5)
@@ -179,7 +179,8 @@ def main() -> None:
 
     # ------------------ Datos -------------------------
     dataset_file = Path(args.dataset_file)
-    X_train, y_train, X_val, y_val, X_test, y_test = load_data(dataset_file=dataset_file)
+    subject_id = args.subject_id
+    X_train, y_train, X_val, y_val, X_test, y_test = load_data(dataset_file=dataset_file, subject_id=subject_id)
 
     loaders = {}
     loaders["train"], loaders["val"], _ = get_dataloader(
