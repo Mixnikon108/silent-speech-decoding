@@ -31,6 +31,8 @@ import torch.optim as optim
 from ema_pytorch import EMA
 from tqdm.auto import tqdm
 
+from thop import profile 
+
 # --- Repos propios ---------------------------------------------------------
 from utils import load_data, get_dataloader  # función *.npz del proyecto
 from models import (
@@ -146,7 +148,7 @@ def train_epoch(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Entrenamiento de Diff‑E para imagined‑speech EEG"
+        description="Entrenamiento de Diff-E para imagined-speech EEG"
     )
 
     # --- Datos & dispositivo
@@ -169,6 +171,9 @@ def main() -> None:
     parser.add_argument("--encoder_dim", type=int, default=256)
     parser.add_argument("--fc_dim", type=int, default=512)
 
+    # --- Experimentos & checkpoints
+    parser.add_argument("--exp-dir", type=str, required=True, help="Directorio para guardar checkpoints y logs")
+
     args = parser.parse_args()
     print(f"[config] Parámetros: {args}")
 
@@ -183,7 +188,7 @@ def main() -> None:
     X_train, y_train, X_val, y_val, X_test, y_test = load_data(dataset_file=dataset_file, subject_id=subject_id)
 
     loaders = {}
-    loaders["train"], loaders["val"], _ = get_dataloader(
+    loaders["train"], loaders["val"], loaders["test"] = get_dataloader(
         X_train,
         y_train,
         X_val,
@@ -217,6 +222,21 @@ def main() -> None:
     diffe = DiffE(encoder, decoder, fc).to(device)
 
 
+    # ------------------ Info FLOPs & tamaño ----------
+    total_params = sum(p.numel() for p in ddpm.parameters()) + sum(p.numel() for p in diffe.parameters())
+    model_size_mb = total_params * 4 / (1024 ** 2)  # asumiendo float32
+   
+    try:
+        dummy_x = torch.randn(1, args.channels, X_train.shape[-1]).to(device)
+        flops_ddpm, _ = profile(ddpm, inputs=(dummy_x,), verbose=False)
+        flops_enc, _ = profile(diffe.encoder, inputs=(dummy_x,), verbose=False)
+        flops_total = flops_ddpm + flops_enc
+        flops_str = f"{flops_total / 1e9:.2f} GFLOPs"
+    except Exception as err:  
+        flops_str = f"N/A (error: {err})"
+
+    print(f"[model] FLOPs: {flops_str} | Peso: {model_size_mb:.2f} MB | Parámetros: {total_params/1e6:.2f} M")
+
 
     # ------------------ Optimizadores / EMA ----------
     (opt_ddpm, sched_ddpm), (opt_diffe, sched_diffe) = build_optim_and_sched(ddpm, diffe)
@@ -224,6 +244,11 @@ def main() -> None:
     print("[setup] EMA configurada en el clasificatorio (beta=0.95)")
 
     criterions = (nn.L1Loss(), nn.MSELoss())
+
+    # ------------------ Directorio de experimento ----
+    exp_dir = Path(args.exp_dir)
+    best_ckpt_path = exp_dir / "best.pt"
+    last_ckpt_path = exp_dir / "last.pt"
 
     # ------------------ Training loop ----------------
     best_metrics: Dict[str, float] = {}
@@ -267,16 +292,73 @@ def main() -> None:
         f1 = metrics["macro_f1"]
         print(f"[eval] Epoch {epoch+1} — acc: {acc:.4f}, macro_f1: {f1:.4f}")
 
+
+        # --- Checkpointing --------------------------------------------------
+        torch.save(
+            {
+                "epoch": epoch + 1,
+                "ddpm_state": ddpm.state_dict(),
+                "diffe_state": diffe.state_dict(),
+                "opt_ddpm_state": opt_ddpm.state_dict(),
+                "opt_diffe_state": opt_diffe.state_dict(),
+                "metrics": metrics,
+            },
+            last_ckpt_path,
+        )
+
         if acc > best_metrics.get("accuracy", 0.0):
             best_metrics = metrics
-            print(f"[eval] ¡Nueva mejor accuracy: {acc:.4f}!")
+            torch.save(
+                {
+                    "epoch": epoch + 1,
+                    "ddpm_state": ddpm.state_dict(),
+                    "diffe_state": diffe.state_dict(),
+                    "opt_ddpm_state": opt_ddpm.state_dict(),
+                    "opt_diffe_state": opt_diffe.state_dict(),
+                    "metrics": metrics,
+                },
+                best_ckpt_path,
+            )
+            print(f"[checkpoint] ¡Nueva mejor accuracy: {acc:.4f}! Checkpoint guardado en {best_ckpt_path}")
 
         pbar.set_postfix(best_acc=best_metrics.get("accuracy", 0.0))
 
     # ------------------ Resumen final ----------------
-    print("\n[train] Mejores métricas alcanzadas:")
-    for k, v in best_metrics.items():
-        print(f"  {k:>16s}: {v:.4f}")
+    print("\n[test] Evaluando el mejor modelo en el conjunto de test…")
+    # Cargamos el mejor estado para asegurar coherencia
+    if best_ckpt_path.exists():
+        ckpt = torch.load(best_ckpt_path, map_location=device)
+        ddpm.load_state_dict(ckpt["ddpm_state"])
+        diffe.load_state_dict(ckpt["diffe_state"])
+        print(f"[test] Checkpoint restaurado desde {best_ckpt_path}")
+
+    ddpm.eval()
+    diffe.eval()
+    with torch.no_grad():
+        test_report = evaluate(
+            diffe.encoder,
+            ema_fc,
+            loaders["test"],
+            device,
+            num_classes=args.num_classes,
+            return_cm=True,
+        )
+
+    print("[test] Reporte completo:")
+    for section, values in test_report.items():
+        print(f"\n  {section}:")
+        if isinstance(values, dict):
+            for k, v in values.items():
+                # Si es escalar (Python float/int o NumPy scalar), formateamos; si es array, lo mostramos tal cual
+                if isinstance(v, (float, int, np.floating, np.integer)):
+                    print(f"    {k:>16s}: {float(v):.4f}")
+                else:  # p. ej. ndarray => matriz de confusión
+                    print(f"    {k:>16s}: {v}")
+        else:  # values es ndarray (matriz de confusión principal)
+            print(values)
+
+
+
 
 
 if __name__ == "__main__":
