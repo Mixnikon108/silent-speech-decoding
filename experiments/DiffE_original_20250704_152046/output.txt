@@ -1,0 +1,787 @@
+[config] Parámetros: Namespace(dataset_file='/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/filtered_BCI2020.npz', device='cpu', num_epochs=500, batch_train=50, batch_eval=32, seed=42, alpha=1.0, subject_id=None, num_classes=5, channels=64, n_T=100, ddpm_dim=128, encoder_dim=64, fc_dim=64, exp_dir='/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046')
+[setup] Semilla fijada a 42
+[setup] Usando dispositivo: cpu
+[INFO] Cargando datos desde: /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/filtered_BCI2020.npz
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([4500, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([4500, 1, 1]), Std shape: torch.Size([4500, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([4500, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Cargando datos de todos los sujetos (concatenados)
+[INFO] Dimensiones finales:
+    - X_train: torch.Size([4500, 64, 800]), y_train: torch.Size([4500])
+    - X_val:   torch.Size([750, 64, 800]), y_val:   torch.Size([750])
+    - X_test:  torch.Size([750, 64, 800]), y_test:  torch.Size([750])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 50  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 90 batches
+    - Val  : 24 batches
+    - Test : 24 batches
+[model] Inicializando modelos...
+[model] FLOPs: 0.01 GFLOPs | Peso: 1.60 MB | Parámetros: 0.42 M
+[setup] Configurando optimizadores y schedulers: base_lr=9e-05, max_lr=0.0015, step_size=150
+[setup] EMA configurada en el clasificatorio (beta=0.95)
+[train] Inicio del bucle de entrenamiento por 500 épocas
+
+[train] ===== Época 1/500 =====
+[eval] Epoch 62 — acc: 0.2480, macro_f1: 0.2423
+
+[train] ===== Época 63/500 =====
+[eval] Epoch 1 — acc: 0.2000, macro_f1: 0.0670
+[checkpoint] ¡Nueva mejor accuracy: 0.2000! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 2/500 =====
+[eval] Epoch 2 — acc: 0.1907, macro_f1: 0.0988
+
+[train] ===== Época 3/500 =====
+[eval] Epoch 63 — acc: 0.2573, macro_f1: 0.2433
+
+[train] ===== Época 64/500 =====
+[eval] Epoch 3 — acc: 0.2067, macro_f1: 0.1309
+[checkpoint] ¡Nueva mejor accuracy: 0.2067! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 4/500 =====
+[eval] Epoch 64 — acc: 0.2560, macro_f1: 0.2461
+
+[train] ===== Época 65/500 =====
+[eval] Epoch 4 — acc: 0.2147, macro_f1: 0.1635
+[checkpoint] ¡Nueva mejor accuracy: 0.2147! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 5/500 =====
+[eval] Epoch 65 — acc: 0.2573, macro_f1: 0.2458
+
+[train] ===== Época 66/500 =====
+[eval] Epoch 5 — acc: 0.2240, macro_f1: 0.1765
+[checkpoint] ¡Nueva mejor accuracy: 0.2240! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 6/500 =====
+[eval] Epoch 6 — acc: 0.2160, macro_f1: 0.2034
+
+[train] ===== Época 7/500 =====
+[eval] Epoch 66 — acc: 0.2627, macro_f1: 0.2533
+[checkpoint] ¡Nueva mejor accuracy: 0.2627! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 67/500 =====
+[eval] Epoch 7 — acc: 0.2267, macro_f1: 0.2193
+[checkpoint] ¡Nueva mejor accuracy: 0.2267! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 8/500 =====
+[eval] Epoch 67 — acc: 0.2667, macro_f1: 0.2596
+[checkpoint] ¡Nueva mejor accuracy: 0.2667! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 68/500 =====
+[eval] Epoch 8 — acc: 0.2240, macro_f1: 0.2082
+
+[train] ===== Época 9/500 =====
+[eval] Epoch 9 — acc: 0.2427, macro_f1: 0.2390
+[checkpoint] ¡Nueva mejor accuracy: 0.2427! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 10/500 =====
+[eval] Epoch 68 — acc: 0.2613, macro_f1: 0.2567
+
+[train] ===== Época 69/500 =====
+[eval] Epoch 10 — acc: 0.2227, macro_f1: 0.2207
+
+[train] ===== Época 11/500 =====
+[eval] Epoch 69 — acc: 0.2693, macro_f1: 0.2645
+[checkpoint] ¡Nueva mejor accuracy: 0.2693! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 70/500 =====
+[eval] Epoch 70 — acc: 0.2573, macro_f1: 0.2469
+
+[train] ===== Época 71/500 =====
+[eval] Epoch 71 — acc: 0.2720, macro_f1: 0.2678
+[checkpoint] ¡Nueva mejor accuracy: 0.2720! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 72/500 =====
+[eval] Epoch 72 — acc: 0.2573, macro_f1: 0.2437
+
+[train] ===== Época 73/500 =====
+[eval] Epoch 73 — acc: 0.2600, macro_f1: 0.2509
+
+[train] ===== Época 74/500 =====
+[eval] Epoch 74 — acc: 0.2560, macro_f1: 0.2491
+
+[train] ===== Época 75/500 =====
+[eval] Epoch 75 — acc: 0.2547, macro_f1: 0.2497
+
+[train] ===== Época 76/500 =====
+[eval] Epoch 76 — acc: 0.2547, macro_f1: 0.2422
+
+[train] ===== Época 77/500 =====
+[eval] Epoch 77 — acc: 0.2640, macro_f1: 0.2643
+
+[train] ===== Época 78/500 =====
+[eval] Epoch 78 — acc: 0.2640, macro_f1: 0.2574
+
+[train] ===== Época 79/500 =====
+[eval] Epoch 79 — acc: 0.2573, macro_f1: 0.2545
+
+[train] ===== Época 80/500 =====
+[eval] Epoch 80 — acc: 0.2680, macro_f1: 0.2653
+
+[train] ===== Época 81/500 =====
+[eval] Epoch 81 — acc: 0.2693, macro_f1: 0.2689
+
+[train] ===== Época 82/500 =====
+[eval] Epoch 82 — acc: 0.2747, macro_f1: 0.2688
+[checkpoint] ¡Nueva mejor accuracy: 0.2747! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 83/500 =====
+[eval] Epoch 83 — acc: 0.2733, macro_f1: 0.2709
+
+[train] ===== Época 84/500 =====
+[eval] Epoch 84 — acc: 0.2613, macro_f1: 0.2598
+
+[train] ===== Época 85/500 =====
+[eval] Epoch 85 — acc: 0.2693, macro_f1: 0.2664
+
+[train] ===== Época 86/500 =====
+[eval] Epoch 86 — acc: 0.2573, macro_f1: 0.2542
+
+[train] ===== Época 87/500 =====
+[eval] Epoch 87 — acc: 0.2720, macro_f1: 0.2718
+
+[train] ===== Época 88/500 =====
+[eval] Epoch 88 — acc: 0.2853, macro_f1: 0.2808
+[checkpoint] ¡Nueva mejor accuracy: 0.2853! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 89/500 =====
+[eval] Epoch 89 — acc: 0.2533, macro_f1: 0.2294
+
+[train] ===== Época 90/500 =====
+[eval] Epoch 90 — acc: 0.2440, macro_f1: 0.2375
+
+[train] ===== Época 91/500 =====
+[eval] Epoch 91 — acc: 0.2680, macro_f1: 0.2606
+
+[train] ===== Época 92/500 =====
+[eval] Epoch 92 — acc: 0.2747, macro_f1: 0.2753
+
+[train] ===== Época 93/500 =====
+[eval] Epoch 93 — acc: 0.2680, macro_f1: 0.2592
+
+[train] ===== Época 94/500 =====
+[eval] Epoch 94 — acc: 0.2813, macro_f1: 0.2791
+
+[train] ===== Época 95/500 =====
+[eval] Epoch 95 — acc: 0.2773, macro_f1: 0.2751
+
+[train] ===== Época 96/500 =====
+[eval] Epoch 96 — acc: 0.2640, macro_f1: 0.2599
+
+[train] ===== Época 97/500 =====
+[eval] Epoch 97 — acc: 0.2613, macro_f1: 0.2605
+
+[train] ===== Época 98/500 =====
+[eval] Epoch 98 — acc: 0.2720, macro_f1: 0.2681
+
+[train] ===== Época 99/500 =====
+[eval] Epoch 99 — acc: 0.2733, macro_f1: 0.2710
+
+[train] ===== Época 100/500 =====
+[eval] Epoch 100 — acc: 0.2787, macro_f1: 0.2764
+
+[train] ===== Época 101/500 =====
+[eval] Epoch 101 — acc: 0.2667, macro_f1: 0.2649
+
+[train] ===== Época 102/500 =====
+[eval] Epoch 102 — acc: 0.2720, macro_f1: 0.2707
+
+[train] ===== Época 103/500 =====
+[eval] Epoch 103 — acc: 0.2813, macro_f1: 0.2804
+
+[train] ===== Época 104/500 =====
+[eval] Epoch 104 — acc: 0.2813, macro_f1: 0.2794
+
+[train] ===== Época 105/500 =====
+[eval] Epoch 105 — acc: 0.2587, macro_f1: 0.2571
+
+[train] ===== Época 106/500 =====
+[eval] Epoch 106 — acc: 0.2627, macro_f1: 0.2611
+
+[train] ===== Época 107/500 =====
+[eval] Epoch 107 — acc: 0.2480, macro_f1: 0.2454
+
+[train] ===== Época 108/500 =====
+[eval] Epoch 108 — acc: 0.2480, macro_f1: 0.2422
+
+[train] ===== Época 109/500 =====
+[eval] Epoch 109 — acc: 0.2747, macro_f1: 0.2657
+
+[train] ===== Época 110/500 =====
+[eval] Epoch 110 — acc: 0.2547, macro_f1: 0.2498
+
+[train] ===== Época 111/500 =====
+[eval] Epoch 111 — acc: 0.2947, macro_f1: 0.2922
+[checkpoint] ¡Nueva mejor accuracy: 0.2947! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 112/500 =====
+[eval] Epoch 112 — acc: 0.2813, macro_f1: 0.2767
+
+[train] ===== Época 113/500 =====
+[eval] Epoch 113 — acc: 0.2680, macro_f1: 0.2645
+
+[train] ===== Época 114/500 =====
+[eval] Epoch 114 — acc: 0.3013, macro_f1: 0.3019
+[checkpoint] ¡Nueva mejor accuracy: 0.3013! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_20250704_152046/best.pt
+
+[train] ===== Época 115/500 =====
+[eval] Epoch 115 — acc: 0.2933, macro_f1: 0.2926
+
+[train] ===== Época 116/500 =====
+[eval] Epoch 116 — acc: 0.2773, macro_f1: 0.2763
+
+[train] ===== Época 117/500 =====
+[eval] Epoch 117 — acc: 0.2920, macro_f1: 0.2915
+
+[train] ===== Época 118/500 =====
+[eval] Epoch 118 — acc: 0.2880, macro_f1: 0.2868
+
+[train] ===== Época 119/500 =====
+[eval] Epoch 119 — acc: 0.2853, macro_f1: 0.2848
+
+[train] ===== Época 120/500 =====
+[eval] Epoch 120 — acc: 0.2947, macro_f1: 0.2924
+
+[train] ===== Época 121/500 =====
+[eval] Epoch 121 — acc: 0.2667, macro_f1: 0.2661
+
+[train] ===== Época 122/500 =====
+[eval] Epoch 122 — acc: 0.2707, macro_f1: 0.2609
+
+[train] ===== Época 123/500 =====
+[eval] Epoch 123 — acc: 0.2773, macro_f1: 0.2781
+
+[train] ===== Época 124/500 =====
+[eval] Epoch 124 — acc: 0.2507, macro_f1: 0.2348
+
+[train] ===== Época 125/500 =====
+[eval] Epoch 125 — acc: 0.2680, macro_f1: 0.2604
+
+[train] ===== Época 126/500 =====
+[eval] Epoch 126 — acc: 0.2413, macro_f1: 0.2334
+
+[train] ===== Época 127/500 =====
+[eval] Epoch 127 — acc: 0.2773, macro_f1: 0.2756
+
+[train] ===== Época 128/500 =====
+[eval] Epoch 128 — acc: 0.2613, macro_f1: 0.2577
+
+[train] ===== Época 129/500 =====
+[eval] Epoch 129 — acc: 0.2653, macro_f1: 0.2592
+
+[train] ===== Época 130/500 =====
+[eval] Epoch 130 — acc: 0.2573, macro_f1: 0.2553
+
+[train] ===== Época 131/500 =====
+[eval] Epoch 131 — acc: 0.2880, macro_f1: 0.2864
+
+[train] ===== Época 132/500 =====
+[eval] Epoch 132 — acc: 0.2800, macro_f1: 0.2787
+
+[train] ===== Época 133/500 =====
+[eval] Epoch 133 — acc: 0.2707, macro_f1: 0.2701
+
+[train] ===== Época 134/500 =====
+[eval] Epoch 134 — acc: 0.2733, macro_f1: 0.2735
+
+[train] ===== Época 135/500 =====
+[eval] Epoch 135 — acc: 0.2733, macro_f1: 0.2718
+
+[train] ===== Época 136/500 =====
+[eval] Epoch 136 — acc: 0.2720, macro_f1: 0.2723
+
+[train] ===== Época 137/500 =====
+[eval] Epoch 137 — acc: 0.2747, macro_f1: 0.2728
+
+[train] ===== Época 138/500 =====
+[eval] Epoch 138 — acc: 0.2707, macro_f1: 0.2677
+
+[train] ===== Época 139/500 =====
+[eval] Epoch 139 — acc: 0.2773, macro_f1: 0.2772
+
+[train] ===== Época 140/500 =====
+[eval] Epoch 140 — acc: 0.2720, macro_f1: 0.2702
+
+[train] ===== Época 141/500 =====
+[eval] Epoch 141 — acc: 0.2640, macro_f1: 0.2404
+
+[train] ===== Época 142/500 =====
+[eval] Epoch 142 — acc: 0.2493, macro_f1: 0.2384
+
+[train] ===== Época 143/500 =====
+[eval] Epoch 143 — acc: 0.2840, macro_f1: 0.2842
+
+[train] ===== Época 144/500 =====
+[eval] Epoch 144 — acc: 0.2733, macro_f1: 0.2702
+
+[train] ===== Época 145/500 =====
+[eval] Epoch 145 — acc: 0.2653, macro_f1: 0.2620
+
+[train] ===== Época 146/500 =====
+[eval] Epoch 146 — acc: 0.2787, macro_f1: 0.2773
+
+[train] ===== Época 147/500 =====
+[eval] Epoch 147 — acc: 0.2787, macro_f1: 0.2736
+
+[train] ===== Época 148/500 =====
+[eval] Epoch 148 — acc: 0.2640, macro_f1: 0.2614
+
+[train] ===== Época 149/500 =====
+[eval] Epoch 149 — acc: 0.2720, macro_f1: 0.2678
+
+[train] ===== Época 150/500 =====
+[eval] Epoch 150 — acc: 0.2600, macro_f1: 0.2583
+
+[train] ===== Época 151/500 =====
+[eval] Epoch 151 — acc: 0.2680, macro_f1: 0.2659
+
+[train] ===== Época 152/500 =====
+[eval] Epoch 152 — acc: 0.2747, macro_f1: 0.2707
+
+[train] ===== Época 153/500 =====
+[eval] Epoch 153 — acc: 0.2613, macro_f1: 0.2601
+
+[train] ===== Época 154/500 =====
+[eval] Epoch 154 — acc: 0.2653, macro_f1: 0.2645
+
+[train] ===== Época 155/500 =====
+[eval] Epoch 155 — acc: 0.2680, macro_f1: 0.2669
+
+[train] ===== Época 156/500 =====
+[eval] Epoch 156 — acc: 0.2667, macro_f1: 0.2597
+
+[train] ===== Época 157/500 =====
+[eval] Epoch 157 — acc: 0.2720, macro_f1: 0.2680
+
+[train] ===== Época 158/500 =====
+[eval] Epoch 158 — acc: 0.2453, macro_f1: 0.2379
+
+[train] ===== Época 159/500 =====
+[eval] Epoch 159 — acc: 0.2680, macro_f1: 0.2644
+
+[train] ===== Época 160/500 =====
+[eval] Epoch 160 — acc: 0.2707, macro_f1: 0.2699
+
+[train] ===== Época 161/500 =====
+[eval] Epoch 161 — acc: 0.2467, macro_f1: 0.2458
+
+[train] ===== Época 162/500 =====
+[eval] Epoch 162 — acc: 0.2533, macro_f1: 0.2523
+
+[train] ===== Época 163/500 =====
+[eval] Epoch 163 — acc: 0.2707, macro_f1: 0.2695
+
+[train] ===== Época 164/500 =====
+[eval] Epoch 164 — acc: 0.2787, macro_f1: 0.2770
+
+[train] ===== Época 165/500 =====
+[eval] Epoch 165 — acc: 0.2680, macro_f1: 0.2675
+
+[train] ===== Época 166/500 =====
+[eval] Epoch 166 — acc: 0.2627, macro_f1: 0.2617
+
+[train] ===== Época 167/500 =====
+[eval] Epoch 167 — acc: 0.2547, macro_f1: 0.2539
+
+[train] ===== Época 168/500 =====
+[eval] Epoch 168 — acc: 0.2800, macro_f1: 0.2795
+
+[train] ===== Época 169/500 =====
+[eval] Epoch 169 — acc: 0.2680, macro_f1: 0.2666
+
+[train] ===== Época 170/500 =====
+[eval] Epoch 170 — acc: 0.2680, macro_f1: 0.2652
+
+[train] ===== Época 171/500 =====
+[eval] Epoch 171 — acc: 0.2640, macro_f1: 0.2636
+
+[train] ===== Época 172/500 =====
+[eval] Epoch 172 — acc: 0.2680, macro_f1: 0.2676
+
+[train] ===== Época 173/500 =====
+[eval] Epoch 173 — acc: 0.2800, macro_f1: 0.2751
+
+[train] ===== Época 174/500 =====
+[eval] Epoch 174 — acc: 0.2693, macro_f1: 0.2503
+
+[train] ===== Época 175/500 =====
+[eval] Epoch 175 — acc: 0.2747, macro_f1: 0.2665
+
+[train] ===== Época 176/500 =====
+[eval] Epoch 176 — acc: 0.2613, macro_f1: 0.2578
+
+[train] ===== Época 177/500 =====
+[eval] Epoch 177 — acc: 0.2653, macro_f1: 0.2628
+
+[train] ===== Época 178/500 =====
+[eval] Epoch 178 — acc: 0.2720, macro_f1: 0.2702
+
+[train] ===== Época 179/500 =====
+[eval] Epoch 179 — acc: 0.2693, macro_f1: 0.2673
+
+[train] ===== Época 180/500 =====
+[eval] Epoch 180 — acc: 0.2693, macro_f1: 0.2679
+
+[train] ===== Época 181/500 =====
+[eval] Epoch 181 — acc: 0.2693, macro_f1: 0.2690
+
+[train] ===== Época 182/500 =====
+[eval] Epoch 182 — acc: 0.2680, macro_f1: 0.2673
+
+[train] ===== Época 183/500 =====
+[eval] Epoch 183 — acc: 0.2667, macro_f1: 0.2660
+
+[train] ===== Época 184/500 =====
+[eval] Epoch 184 — acc: 0.2733, macro_f1: 0.2728
+
+[train] ===== Época 185/500 =====
+[eval] Epoch 185 — acc: 0.2667, macro_f1: 0.2660
+
+[train] ===== Época 186/500 =====
+[eval] Epoch 186 — acc: 0.2733, macro_f1: 0.2732
+
+[train] ===== Época 187/500 =====
+[eval] Epoch 187 — acc: 0.2627, macro_f1: 0.2587
+
+[train] ===== Época 188/500 =====
+[eval] Epoch 188 — acc: 0.2733, macro_f1: 0.2707
+
+[train] ===== Época 189/500 =====
+[eval] Epoch 189 — acc: 0.2547, macro_f1: 0.2529
+
+[train] ===== Época 190/500 =====
+[eval] Epoch 190 — acc: 0.2547, macro_f1: 0.2511
+
+[train] ===== Época 191/500 =====
+[eval] Epoch 191 — acc: 0.2600, macro_f1: 0.2563
+
+[train] ===== Época 192/500 =====
+[eval] Epoch 192 — acc: 0.2653, macro_f1: 0.2634
+
+[train] ===== Época 193/500 =====
+[eval] Epoch 193 — acc: 0.2707, macro_f1: 0.2680
+
+[train] ===== Época 194/500 =====
+[eval] Epoch 194 — acc: 0.2680, macro_f1: 0.2678
+
+[train] ===== Época 195/500 =====
+[eval] Epoch 195 — acc: 0.2480, macro_f1: 0.2481
+
+[train] ===== Época 196/500 =====
+[eval] Epoch 196 — acc: 0.2680, macro_f1: 0.2671
+
+[train] ===== Época 197/500 =====
+[eval] Epoch 197 — acc: 0.2653, macro_f1: 0.2647
+
+[train] ===== Época 198/500 =====
+[eval] Epoch 198 — acc: 0.2640, macro_f1: 0.2636
+
+[train] ===== Época 199/500 =====
+[eval] Epoch 199 — acc: 0.2600, macro_f1: 0.2596
+
+[train] ===== Época 200/500 =====
+[eval] Epoch 200 — acc: 0.2573, macro_f1: 0.2570
+
+[train] ===== Época 201/500 =====
+[eval] Epoch 201 — acc: 0.2627, macro_f1: 0.2625
+
+[train] ===== Época 202/500 =====
+[eval] Epoch 202 — acc: 0.2560, macro_f1: 0.2557
+
+[train] ===== Época 203/500 =====
+[eval] Epoch 203 — acc: 0.2573, macro_f1: 0.2566
+
+[train] ===== Época 204/500 =====
+[eval] Epoch 204 — acc: 0.2507, macro_f1: 0.2482
+
+[train] ===== Época 205/500 =====
+[eval] Epoch 205 — acc: 0.2640, macro_f1: 0.2613
+
+[train] ===== Época 206/500 =====
+[eval] Epoch 206 — acc: 0.2667, macro_f1: 0.2591
+
+[train] ===== Época 207/500 =====
+[eval] Epoch 207 — acc: 0.2507, macro_f1: 0.2507
+
+[train] ===== Época 208/500 =====
+[eval] Epoch 208 — acc: 0.2373, macro_f1: 0.2356
+
+[train] ===== Época 209/500 =====
+[eval] Epoch 209 — acc: 0.2467, macro_f1: 0.2450
+
+[train] ===== Época 210/500 =====
+[eval] Epoch 210 — acc: 0.2613, macro_f1: 0.2611
+
+[train] ===== Época 211/500 =====
+[eval] Epoch 211 — acc: 0.2680, macro_f1: 0.2672
+
+[train] ===== Época 212/500 =====
+[eval] Epoch 212 — acc: 0.2640, macro_f1: 0.2646
+
+[train] ===== Época 213/500 =====
+[eval] Epoch 213 — acc: 0.2693, macro_f1: 0.2687
+
+[train] ===== Época 214/500 =====
+[eval] Epoch 214 — acc: 0.2600, macro_f1: 0.2603
+
+[train] ===== Época 215/500 =====
+[eval] Epoch 215 — acc: 0.2587, macro_f1: 0.2587
+
+[train] ===== Época 216/500 =====
+[eval] Epoch 216 — acc: 0.2560, macro_f1: 0.2562
+
+[train] ===== Época 217/500 =====
+[eval] Epoch 217 — acc: 0.2587, macro_f1: 0.2591
+
+[train] ===== Época 218/500 =====
+[eval] Epoch 218 — acc: 0.2533, macro_f1: 0.2534
+
+[train] ===== Época 219/500 =====
+[eval] Epoch 219 — acc: 0.2600, macro_f1: 0.2600
+
+[train] ===== Época 220/500 =====
+[eval] Epoch 220 — acc: 0.2440, macro_f1: 0.2420
+
+[train] ===== Época 221/500 =====
+[eval] Epoch 221 — acc: 0.2480, macro_f1: 0.2467
+
+[train] ===== Época 222/500 =====
+[eval] Epoch 222 — acc: 0.2627, macro_f1: 0.2626
+
+[train] ===== Época 223/500 =====
+[eval] Epoch 223 — acc: 0.2520, macro_f1: 0.2465
+
+[train] ===== Época 224/500 =====
+[eval] Epoch 224 — acc: 0.2627, macro_f1: 0.2580
+
+[train] ===== Época 225/500 =====
+[eval] Epoch 225 — acc: 0.2693, macro_f1: 0.2693
+
+[train] ===== Época 226/500 =====
+[eval] Epoch 226 — acc: 0.2320, macro_f1: 0.2236
+
+[train] ===== Época 227/500 =====
+[eval] Epoch 227 — acc: 0.2627, macro_f1: 0.2623
+
+[train] ===== Época 228/500 =====
+[eval] Epoch 228 — acc: 0.2627, macro_f1: 0.2623
+
+[train] ===== Época 229/500 =====
+[eval] Epoch 229 — acc: 0.2653, macro_f1: 0.2653
+
+[train] ===== Época 230/500 =====
+[eval] Epoch 230 — acc: 0.2467, macro_f1: 0.2461
+
+[train] ===== Época 231/500 =====
+[eval] Epoch 231 — acc: 0.2573, macro_f1: 0.2569
+
+[train] ===== Época 232/500 =====
+[eval] Epoch 232 — acc: 0.2547, macro_f1: 0.2546
+
+[train] ===== Época 233/500 =====
+[eval] Epoch 233 — acc: 0.2507, macro_f1: 0.2504
+
+[train] ===== Época 234/500 =====
+[eval] Epoch 234 — acc: 0.2520, macro_f1: 0.2519
+
+[train] ===== Época 235/500 =====
+[eval] Epoch 235 — acc: 0.2547, macro_f1: 0.2545
+
+[train] ===== Época 236/500 =====
+[eval] Epoch 236 — acc: 0.2560, macro_f1: 0.2556
+
+[train] ===== Época 237/500 =====
+[eval] Epoch 237 — acc: 0.2547, macro_f1: 0.2539
+
+[train] ===== Época 238/500 =====
+[eval] Epoch 238 — acc: 0.2467, macro_f1: 0.2453
+
+[train] ===== Época 239/500 =====
+[eval] Epoch 239 — acc: 0.2533, macro_f1: 0.2525
+
+[train] ===== Época 240/500 =====
+[eval] Epoch 240 — acc: 0.2373, macro_f1: 0.2346
+
+[train] ===== Época 241/500 =====
+[eval] Epoch 241 — acc: 0.2680, macro_f1: 0.2669
+
+[train] ===== Época 242/500 =====
+[eval] Epoch 242 — acc: 0.2520, macro_f1: 0.2517
+
+[train] ===== Época 243/500 =====
+[eval] Epoch 243 — acc: 0.2493, macro_f1: 0.2494
+
+[train] ===== Época 244/500 =====
+[eval] Epoch 244 — acc: 0.2573, macro_f1: 0.2571
+
+[train] ===== Época 245/500 =====
+[eval] Epoch 245 — acc: 0.2600, macro_f1: 0.2593
+
+[train] ===== Época 246/500 =====
+[eval] Epoch 246 — acc: 0.2613, macro_f1: 0.2612
+
+[train] ===== Época 247/500 =====
+[eval] Epoch 247 — acc: 0.2613, macro_f1: 0.2611
+
+[train] ===== Época 248/500 =====
+[eval] Epoch 248 — acc: 0.2587, macro_f1: 0.2587
+
+[train] ===== Época 249/500 =====
+[eval] Epoch 249 — acc: 0.2600, macro_f1: 0.2599
+
+[train] ===== Época 250/500 =====
+[eval] Epoch 250 — acc: 0.2613, macro_f1: 0.2612
+
+[train] ===== Época 251/500 =====
+[eval] Epoch 251 — acc: 0.2573, macro_f1: 0.2573
+
+[train] ===== Época 252/500 =====
+[eval] Epoch 252 — acc: 0.2627, macro_f1: 0.2626
+
+[train] ===== Época 253/500 =====
+[eval] Epoch 253 — acc: 0.2560, macro_f1: 0.2541
+
+[train] ===== Época 254/500 =====
+[eval] Epoch 254 — acc: 0.2573, macro_f1: 0.2539
+
+[train] ===== Época 255/500 =====
+[eval] Epoch 255 — acc: 0.2613, macro_f1: 0.2614
+
+[train] ===== Época 256/500 =====
+[eval] Epoch 256 — acc: 0.2400, macro_f1: 0.2386
+
+[train] ===== Época 257/500 =====
+[eval] Epoch 257 — acc: 0.2560, macro_f1: 0.2532
+
+[train] ===== Época 258/500 =====
+[eval] Epoch 258 — acc: 0.2560, macro_f1: 0.2533
+
+[train] ===== Época 259/500 =====
+[eval] Epoch 259 — acc: 0.2640, macro_f1: 0.2640
+
+[train] ===== Época 260/500 =====
+[eval] Epoch 260 — acc: 0.2600, macro_f1: 0.2591
+
+[train] ===== Época 261/500 =====
+[eval] Epoch 261 — acc: 0.2600, macro_f1: 0.2599
+
+[train] ===== Época 262/500 =====
+[eval] Epoch 262 — acc: 0.2560, macro_f1: 0.2559
+
+[train] ===== Época 263/500 =====
+[eval] Epoch 263 — acc: 0.2507, macro_f1: 0.2508
+
+[train] ===== Época 264/500 =====
+[eval] Epoch 264 — acc: 0.2600, macro_f1: 0.2602
+
+[train] ===== Época 265/500 =====
+[eval] Epoch 265 — acc: 0.2600, macro_f1: 0.2599
+
+[train] ===== Época 266/500 =====
+[eval] Epoch 266 — acc: 0.2547, macro_f1: 0.2549
+
+[train] ===== Época 267/500 =====
+[eval] Epoch 267 — acc: 0.2547, macro_f1: 0.2548
+
+[train] ===== Época 268/500 =====
+[eval] Epoch 268 — acc: 0.2507, macro_f1: 0.2510
+
+[train] ===== Época 269/500 =====
+[eval] Epoch 269 — acc: 0.2507, macro_f1: 0.2509
+
+[train] ===== Época 270/500 =====
+[eval] Epoch 270 — acc: 0.2547, macro_f1: 0.2517
+
+[train] ===== Época 271/500 =====
+[eval] Epoch 271 — acc: 0.2547, macro_f1: 0.2530
+
+[train] ===== Época 272/500 =====
+[eval] Epoch 272 — acc: 0.2560, macro_f1: 0.2560
+
+[train] ===== Época 273/500 =====
+[eval] Epoch 273 — acc: 0.2573, macro_f1: 0.2577
+
+[train] ===== Época 274/500 =====
+[eval] Epoch 274 — acc: 0.2427, macro_f1: 0.2404
+
+[train] ===== Época 275/500 =====
+[eval] Epoch 275 — acc: 0.2533, macro_f1: 0.2522
+
+[train] ===== Época 276/500 =====
+[eval] Epoch 276 — acc: 0.2400, macro_f1: 0.2399
+
+[train] ===== Época 277/500 =====
+[eval] Epoch 277 — acc: 0.2413, macro_f1: 0.2416
+
+[train] ===== Época 278/500 =====
+[eval] Epoch 278 — acc: 0.2493, macro_f1: 0.2493
+
+[train] ===== Época 279/500 =====
+[eval] Epoch 279 — acc: 0.2627, macro_f1: 0.2628
+
+[train] ===== Época 280/500 =====
+[eval] Epoch 280 — acc: 0.2547, macro_f1: 0.2547
+
+[train] ===== Época 281/500 =====
+[eval] Epoch 281 — acc: 0.2560, macro_f1: 0.2557
+
+[train] ===== Época 282/500 =====
+[eval] Epoch 282 — acc: 0.2560, macro_f1: 0.2560
+
+[train] ===== Época 283/500 =====
+[eval] Epoch 283 — acc: 0.2573, macro_f1: 0.2574
+
+[train] ===== Época 284/500 =====
+[eval] Epoch 284 — acc: 0.2573, macro_f1: 0.2575
+
+[train] ===== Época 285/500 =====
+[eval] Epoch 285 — acc: 0.2547, macro_f1: 0.2547
+
+[train] ===== Época 286/500 =====
+[eval] Epoch 286 — acc: 0.2653, macro_f1: 0.2654
+
+[train] ===== Época 287/500 =====
+[eval] Epoch 287 — acc: 0.2453, macro_f1: 0.2453
+
+[train] ===== Época 288/500 =====
+[eval] Epoch 288 — acc: 0.2453, macro_f1: 0.2452
+
+[train] ===== Época 289/500 =====
+[eval] Epoch 289 — acc: 0.2547, macro_f1: 0.2546
+
+[train] ===== Época 290/500 =====
+[eval] Epoch 290 — acc: 0.2347, macro_f1: 0.2330
+
+[train] ===== Época 291/500 =====
+[eval] Epoch 291 — acc: 0.2493, macro_f1: 0.2488
+
+[train] ===== Época 292/500 =====
+[eval] Epoch 292 — acc: 0.2427, macro_f1: 0.2425
+
+[train] ===== Época 293/500 =====
+[eval] Epoch 293 — acc: 0.2547, macro_f1: 0.2550
+
+[train] ===== Época 294/500 =====
+[eval] Epoch 294 — acc: 0.2547, macro_f1: 0.2544
+
+[train] ===== Época 295/500 =====
