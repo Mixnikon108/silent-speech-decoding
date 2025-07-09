@@ -87,12 +87,12 @@ def load_data(dataset_file: Path, subject_id: int = None):
     def _prep_y(arr):
         return torch.from_numpy(np.argmax(arr, axis=0)).long()  # (T,)
 
-    X_train = _prep_X(data["X_train_f"])
-    y_train = _prep_y(data["y_train_f"])
-    X_val   = _prep_X(data["X_val_f"])
-    y_val   = _prep_y(data["y_val_f"])
-    X_test  = _prep_X(data["X_test_f"])
-    y_test  = _prep_y(data["y_test_f"])
+    X_train = _prep_X(data["X_train"])
+    y_train = _prep_y(data["y_train"])
+    X_val   = _prep_X(data["X_val"])
+    y_val   = _prep_y(data["y_val"])
+    X_test  = _prep_X(data["X_test"])
+    y_test  = _prep_y(data["y_test"])
 
     if subject_id is not None:
         assert 1 <= subject_id <= 15, "subject_id must be between 1 and 15"
@@ -101,7 +101,7 @@ def load_data(dataset_file: Path, subject_id: int = None):
 
         train_slice = slice(i * 300, (i + 1) * 300)
         val_slice   = slice(i * 50,  (i + 1) * 50)
-        test_slice  = slice(i * 50,  (i + 1) * 50)
+        test_slice  = slice((i + 1) * 50, (i + 2) * 50)
 
         X_train = X_train[train_slice]
         y_train = y_train[train_slice]
