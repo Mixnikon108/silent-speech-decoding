@@ -1,0 +1,108 @@
+[DATASET] Loading dataset from: BCI_processed.npz
+[data] Cargando datos del dataset BCI
+[INFO] Cargando datos desde: /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/BCI_processed.npz
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([4500, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([4500, 1, 1]), Std shape: torch.Size([4500, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([4500, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Cargando datos de todos los sujetos (concatenados)
+[INFO] Dimensiones finales:
+    - X_train: torch.Size([4500, 64, 800]), y_train: torch.Size([4500])
+    - X_val:   torch.Size([750, 64, 800]), y_val:   torch.Size([750])
+    - X_test:  torch.Size([750, 64, 800]), y_test:  torch.Size([750])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 64  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 71 batches
+    - Val  : 24 batches
+    - Test : 24 batches
+
+▶ Entrenando mlp …
+Epoch 010/100 – train acc: 0.302, val acc: 0.201
+Epoch 020/100 – train acc: 0.336, val acc: 0.199
+Epoch 030/100 – train acc: 0.361, val acc: 0.200
+Epoch 040/100 – train acc: 0.367, val acc: 0.197
+Epoch 050/100 – train acc: 0.366, val acc: 0.197
+Epoch 060/100 – train acc: 0.390, val acc: 0.209
+Epoch 070/100 – train acc: 0.377, val acc: 0.207
+Epoch 080/100 – train acc: 0.380, val acc: 0.208
+Epoch 090/100 – train acc: 0.393, val acc: 0.205
+Epoch 100/100 – train acc: 0.390, val acc: 0.205
+✓ mlp terminado. Test acc = 0.201
+
+
+▶ Entrenando cnn …
+Epoch 010/100 – train acc: 0.262, val acc: 0.219
+Epoch 020/100 – train acc: 0.331, val acc: 0.231
+Epoch 030/100 – train acc: 0.399, val acc: 0.224
+Epoch 040/100 – train acc: 0.464, val acc: 0.237
+Epoch 050/100 – train acc: 0.512, val acc: 0.260
+Epoch 060/100 – train acc: 0.575, val acc: 0.257
+Epoch 070/100 – train acc: 0.622, val acc: 0.224
+Epoch 080/100 – train acc: 0.648, val acc: 0.228
+Epoch 090/100 – train acc: 0.684, val acc: 0.243
+Epoch 100/100 – train acc: 0.729, val acc: 0.247
+✓ cnn terminado. Test acc = 0.223
+
+
+▶ Entrenando eegnet …
+Epoch 010/100 – train acc: 0.328, val acc: 0.229
+Epoch 020/100 – train acc: 0.400, val acc: 0.220
+Epoch 030/100 – train acc: 0.442, val acc: 0.207
+Epoch 040/100 – train acc: 0.480, val acc: 0.205
+Epoch 050/100 – train acc: 0.502, val acc: 0.236
+Epoch 060/100 – train acc: 0.524, val acc: 0.193
+Epoch 070/100 – train acc: 0.544, val acc: 0.211
+Epoch 080/100 – train acc: 0.563, val acc: 0.219
+Epoch 090/100 – train acc: 0.581, val acc: 0.204
+Epoch 100/100 – train acc: 0.578, val acc: 0.207
+✓ eegnet terminado. Test acc = 0.213
+
+
+▶ Entrenando shallowconvnet …
+Epoch 010/100 – train acc: 0.399, val acc: 0.207
+Epoch 020/100 – train acc: 0.519, val acc: 0.207
+Epoch 030/100 – train acc: 0.587, val acc: 0.211
+Epoch 040/100 – train acc: 0.635, val acc: 0.243
+Epoch 050/100 – train acc: 0.684, val acc: 0.203
+Epoch 060/100 – train acc: 0.705, val acc: 0.233
+Epoch 070/100 – train acc: 0.720, val acc: 0.221
+Epoch 080/100 – train acc: 0.758, val acc: 0.201
+Epoch 090/100 – train acc: 0.762, val acc: 0.211
+Epoch 100/100 – train acc: 0.772, val acc: 0.209
+✓ shallowconvnet terminado. Test acc = 0.213
+
+
+▶ Entrenando deepconvnet …
+Epoch 010/100 – train acc: 0.334, val acc: 0.211
+Epoch 020/100 – train acc: 0.480, val acc: 0.193
+Epoch 030/100 – train acc: 0.615, val acc: 0.217
+Epoch 040/100 – train acc: 0.722, val acc: 0.233
+Epoch 050/100 – train acc: 0.794, val acc: 0.213
+Epoch 060/100 – train acc: 0.829, val acc: 0.201
+Epoch 070/100 – train acc: 0.849, val acc: 0.199
+Epoch 080/100 – train acc: 0.863, val acc: 0.217
+Epoch 090/100 – train acc: 0.879, val acc: 0.197
+Epoch 100/100 – train acc: 0.898, val acc: 0.207
+✓ deepconvnet terminado. Test acc = 0.213
+
+
+Benchmark completo → resultados en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/otherModels_BCI_processed_ALL/benchmark_results.csv

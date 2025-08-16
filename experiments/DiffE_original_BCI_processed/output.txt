@@ -1,0 +1,496 @@
+[config] Parámetros: Namespace(dataset_file='/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/BCI_processed.npz', dataset='BCI', device='cuda:0', num_epochs=100, batch_train=250, batch_eval=32, seed=42, alpha=10.0, subject_id=1, num_classes=5, channels=64, n_T=100, ddpm_dim=128, encoder_dim=64, fc_dim=64, exp_dir='/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed')
+[setup] Semilla fijada a 42
+[setup] Usando dispositivo: cuda:0
+[data] Cargando datos del dataset BCI
+[INFO] Cargando datos desde: /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/BCI_processed.npz
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([4500, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([4500, 1, 1]), Std shape: torch.Size([4500, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([4500, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([750, 64, 795])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([750, 1, 1]), Std shape: torch.Size([750, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([750, 64, 795])
+[INFO] Padding aplicado: se añaden 5 valores a la derecha (dim original: 795)
+[INFO] Dimensión temporal final: 800
+[INFO] Filtrando datos para el sujeto 1 (índice interno: 0)
+[INFO] Seleccionando idx slice(0, 300, None) para X_train, slice(0, 50, None) para X_val, slice(0, 50, None) para X_test
+[INFO] Dimensiones finales:
+    - X_train: torch.Size([300, 64, 800]), y_train: torch.Size([300])
+    - X_val:   torch.Size([50, 64, 800]), y_val:   torch.Size([50])
+    - X_test:  torch.Size([50, 64, 800]), y_test:  torch.Size([50])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 250  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 2 batches
+    - Val  : 2 batches
+    - Test : 2 batches
+[model] Inicializando modelos...
+[model] FLOPs: 0.01 GFLOPs | Peso: 0.70 MB | Parámetros: 0.18 M
+[setup] Configurando optimizadores y schedulers: base_lr=0.0003, max_lr=0.003, step_size=50
+[setup] EMA configurada en el clasificatorio (beta=0.95)
+[train] Inicio del bucle de entrenamiento por 100 épocas
+
+[train] ===== Época 1/100 =====
+[train] acc: 0.234 | Loss DDPM: 0.74877 | Loss Gap: 0.73087 | Loss Cls: 1.77949
+[eval] Epoch 1 — acc: 0.2000, macro_f1: 0.0667
+[checkpoint] ¡Nueva mejor accuracy: 0.2000! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 2/100 =====
+[train] acc: 0.254 | Loss DDPM: 0.64831 | Loss Gap: 0.48788 | Loss Cls: 1.76614
+[eval] Epoch 2 — acc: 0.2200, macro_f1: 0.1023
+[checkpoint] ¡Nueva mejor accuracy: 0.2200! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 3/100 =====
+[train] acc: 0.276 | Loss DDPM: 0.59435 | Loss Gap: 0.44529 | Loss Cls: 1.62549
+[eval] Epoch 3 — acc: 0.1800, macro_f1: 0.0926
+
+[train] ===== Época 4/100 =====
+[train] acc: 0.268 | Loss DDPM: 0.58581 | Loss Gap: 0.43519 | Loss Cls: 1.57241
+[eval] Epoch 4 — acc: 0.2600, macro_f1: 0.2121
+[checkpoint] ¡Nueva mejor accuracy: 0.2600! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 5/100 =====
+[train] acc: 0.328 | Loss DDPM: 0.53435 | Loss Gap: 0.39230 | Loss Cls: 1.67161
+[eval] Epoch 5 — acc: 0.2800, macro_f1: 0.2599
+[checkpoint] ¡Nueva mejor accuracy: 0.2800! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 6/100 =====
+[train] acc: 0.406 | Loss DDPM: 0.54043 | Loss Gap: 0.41139 | Loss Cls: 1.50838
+[eval] Epoch 6 — acc: 0.2600, macro_f1: 0.2422
+
+[train] ===== Época 7/100 =====
+[train] acc: 0.386 | Loss DDPM: 0.50269 | Loss Gap: 0.38670 | Loss Cls: 1.55328
+[eval] Epoch 7 — acc: 0.2200, macro_f1: 0.2048
+
+[train] ===== Época 8/100 =====
+[train] acc: 0.404 | Loss DDPM: 0.50200 | Loss Gap: 0.39691 | Loss Cls: 1.52014
+[eval] Epoch 8 — acc: 0.2200, macro_f1: 0.1938
+
+[train] ===== Época 9/100 =====
+[train] acc: 0.362 | Loss DDPM: 0.47456 | Loss Gap: 0.37596 | Loss Cls: 1.56174
+[eval] Epoch 9 — acc: 0.2200, macro_f1: 0.1911
+
+[train] ===== Época 10/100 =====
+[train] acc: 0.490 | Loss DDPM: 0.49323 | Loss Gap: 0.38438 | Loss Cls: 1.45765
+[eval] Epoch 10 — acc: 0.2000, macro_f1: 0.1652
+
+[train] ===== Época 11/100 =====
+[train] acc: 0.480 | Loss DDPM: 0.47533 | Loss Gap: 0.38196 | Loss Cls: 1.42002
+[eval] Epoch 11 — acc: 0.2400, macro_f1: 0.2125
+
+[train] ===== Época 12/100 =====
+[train] acc: 0.492 | Loss DDPM: 0.46852 | Loss Gap: 0.38833 | Loss Cls: 1.37610
+[eval] Epoch 12 — acc: 0.2800, macro_f1: 0.2517
+
+[train] ===== Época 13/100 =====
+[train] acc: 0.472 | Loss DDPM: 0.45973 | Loss Gap: 0.37523 | Loss Cls: 1.45129
+[eval] Epoch 13 — acc: 0.2400, macro_f1: 0.2080
+
+[train] ===== Época 14/100 =====
+[train] acc: 0.512 | Loss DDPM: 0.45438 | Loss Gap: 0.37881 | Loss Cls: 1.42384
+[eval] Epoch 14 — acc: 0.2400, macro_f1: 0.2080
+
+[train] ===== Época 15/100 =====
+[train] acc: 0.564 | Loss DDPM: 0.45972 | Loss Gap: 0.37806 | Loss Cls: 1.36516
+[eval] Epoch 15 — acc: 0.2600, macro_f1: 0.2507
+
+[train] ===== Época 16/100 =====
+[train] acc: 0.504 | Loss DDPM: 0.45928 | Loss Gap: 0.38934 | Loss Cls: 1.38628
+[eval] Epoch 16 — acc: 0.2600, macro_f1: 0.2025
+
+[train] ===== Época 17/100 =====
+[train] acc: 0.450 | Loss DDPM: 0.44443 | Loss Gap: 0.38779 | Loss Cls: 1.35623
+[eval] Epoch 17 — acc: 0.2000, macro_f1: 0.1792
+
+[train] ===== Época 18/100 =====
+[train] acc: 0.562 | Loss DDPM: 0.41300 | Loss Gap: 0.36536 | Loss Cls: 1.35604
+[eval] Epoch 18 — acc: 0.2400, macro_f1: 0.2118
+
+[train] ===== Época 19/100 =====
+[train] acc: 0.452 | Loss DDPM: 0.43319 | Loss Gap: 0.37448 | Loss Cls: 1.39272
+[eval] Epoch 19 — acc: 0.2400, macro_f1: 0.2264
+
+[train] ===== Época 20/100 =====
+[train] acc: 0.586 | Loss DDPM: 0.44229 | Loss Gap: 0.38869 | Loss Cls: 1.32453
+[eval] Epoch 20 — acc: 0.3200, macro_f1: 0.2871
+[checkpoint] ¡Nueva mejor accuracy: 0.3200! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 21/100 =====
+[train] acc: 0.598 | Loss DDPM: 0.41742 | Loss Gap: 0.37486 | Loss Cls: 1.25657
+[eval] Epoch 21 — acc: 0.2200, macro_f1: 0.2183
+
+[train] ===== Época 22/100 =====
+[train] acc: 0.534 | Loss DDPM: 0.42911 | Loss Gap: 0.37885 | Loss Cls: 1.29300
+[eval] Epoch 22 — acc: 0.2600, macro_f1: 0.2467
+
+[train] ===== Época 23/100 =====
+[train] acc: 0.560 | Loss DDPM: 0.41611 | Loss Gap: 0.37459 | Loss Cls: 1.39073
+[eval] Epoch 23 — acc: 0.1600, macro_f1: 0.1452
+
+[train] ===== Época 24/100 =====
+[train] acc: 0.550 | Loss DDPM: 0.41742 | Loss Gap: 0.36937 | Loss Cls: 1.28686
+[eval] Epoch 24 — acc: 0.2400, macro_f1: 0.2391
+
+[train] ===== Época 25/100 =====
+[train] acc: 0.664 | Loss DDPM: 0.40831 | Loss Gap: 0.36327 | Loss Cls: 1.19929
+[eval] Epoch 25 — acc: 0.2600, macro_f1: 0.2549
+
+[train] ===== Época 26/100 =====
+[train] acc: 0.610 | Loss DDPM: 0.40347 | Loss Gap: 0.36665 | Loss Cls: 1.30149
+[eval] Epoch 26 — acc: 0.1800, macro_f1: 0.1450
+
+[train] ===== Época 27/100 =====
+[train] acc: 0.616 | Loss DDPM: 0.40153 | Loss Gap: 0.37055 | Loss Cls: 1.31151
+[eval] Epoch 27 — acc: 0.1800, macro_f1: 0.1315
+
+[train] ===== Época 28/100 =====
+[train] acc: 0.654 | Loss DDPM: 0.42748 | Loss Gap: 0.35972 | Loss Cls: 1.24153
+[eval] Epoch 28 — acc: 0.1800, macro_f1: 0.1627
+
+[train] ===== Época 29/100 =====
+[train] acc: 0.650 | Loss DDPM: 0.39257 | Loss Gap: 0.32528 | Loss Cls: 1.14760
+[eval] Epoch 29 — acc: 0.2400, macro_f1: 0.2354
+
+[train] ===== Época 30/100 =====
+[train] acc: 0.660 | Loss DDPM: 0.40058 | Loss Gap: 0.31335 | Loss Cls: 1.10301
+[eval] Epoch 30 — acc: 0.2000, macro_f1: 0.1814
+
+[train] ===== Época 31/100 =====
+[train] acc: 0.682 | Loss DDPM: 0.39586 | Loss Gap: 0.29990 | Loss Cls: 1.10528
+[eval] Epoch 31 — acc: 0.1800, macro_f1: 0.1652
+
+[train] ===== Época 32/100 =====
+[train] acc: 0.664 | Loss DDPM: 0.39876 | Loss Gap: 0.29296 | Loss Cls: 1.06931
+[eval] Epoch 32 — acc: 0.2600, macro_f1: 0.2223
+
+[train] ===== Época 33/100 =====
+[train] acc: 0.648 | Loss DDPM: 0.39815 | Loss Gap: 0.28549 | Loss Cls: 1.12097
+[eval] Epoch 33 — acc: 0.2000, macro_f1: 0.1798
+
+[train] ===== Época 34/100 =====
+[train] acc: 0.708 | Loss DDPM: 0.39992 | Loss Gap: 0.28592 | Loss Cls: 0.96410
+[eval] Epoch 34 — acc: 0.2400, macro_f1: 0.1966
+
+[train] ===== Época 35/100 =====
+[train] acc: 0.720 | Loss DDPM: 0.38392 | Loss Gap: 0.27486 | Loss Cls: 1.08502
+[eval] Epoch 35 — acc: 0.2400, macro_f1: 0.2276
+
+[train] ===== Época 36/100 =====
+[train] acc: 0.682 | Loss DDPM: 0.37789 | Loss Gap: 0.27336 | Loss Cls: 0.96354
+[eval] Epoch 36 — acc: 0.3200, macro_f1: 0.2858
+
+[train] ===== Época 37/100 =====
+[train] acc: 0.730 | Loss DDPM: 0.39371 | Loss Gap: 0.26991 | Loss Cls: 0.84986
+[eval] Epoch 37 — acc: 0.2000, macro_f1: 0.1760
+
+[train] ===== Época 38/100 =====
+[train] acc: 0.716 | Loss DDPM: 0.37805 | Loss Gap: 0.25239 | Loss Cls: 1.01567
+[eval] Epoch 38 — acc: 0.2400, macro_f1: 0.2297
+
+[train] ===== Época 39/100 =====
+[train] acc: 0.708 | Loss DDPM: 0.37704 | Loss Gap: 0.25112 | Loss Cls: 0.95012
+[eval] Epoch 39 — acc: 0.3400, macro_f1: 0.2937
+[checkpoint] ¡Nueva mejor accuracy: 0.3400! Checkpoint guardado en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+
+[train] ===== Época 40/100 =====
+[train] acc: 0.770 | Loss DDPM: 0.38082 | Loss Gap: 0.25290 | Loss Cls: 0.83710
+[eval] Epoch 40 — acc: 0.2600, macro_f1: 0.2259
+
+[train] ===== Época 41/100 =====
+[train] acc: 0.728 | Loss DDPM: 0.37981 | Loss Gap: 0.25085 | Loss Cls: 0.90797
+[eval] Epoch 41 — acc: 0.2600, macro_f1: 0.2305
+
+[train] ===== Época 42/100 =====
+[train] acc: 0.790 | Loss DDPM: 0.36937 | Loss Gap: 0.24498 | Loss Cls: 0.84249
+[eval] Epoch 42 — acc: 0.1800, macro_f1: 0.1638
+
+[train] ===== Época 43/100 =====
+[train] acc: 0.732 | Loss DDPM: 0.39002 | Loss Gap: 0.25683 | Loss Cls: 0.78738
+[eval] Epoch 43 — acc: 0.2000, macro_f1: 0.1912
+
+[train] ===== Época 44/100 =====
+[train] acc: 0.772 | Loss DDPM: 0.39224 | Loss Gap: 0.25279 | Loss Cls: 0.76630
+[eval] Epoch 44 — acc: 0.2000, macro_f1: 0.1972
+
+[train] ===== Época 45/100 =====
+[train] acc: 0.810 | Loss DDPM: 0.38008 | Loss Gap: 0.24543 | Loss Cls: 0.72395
+[eval] Epoch 45 — acc: 0.2000, macro_f1: 0.1799
+
+[train] ===== Época 46/100 =====
+[train] acc: 0.796 | Loss DDPM: 0.37046 | Loss Gap: 0.23793 | Loss Cls: 0.76274
+[eval] Epoch 46 — acc: 0.2400, macro_f1: 0.2324
+
+[train] ===== Época 47/100 =====
+[train] acc: 0.784 | Loss DDPM: 0.37790 | Loss Gap: 0.24195 | Loss Cls: 0.69177
+[eval] Epoch 47 — acc: 0.2000, macro_f1: 0.1972
+
+[train] ===== Época 48/100 =====
+[train] acc: 0.832 | Loss DDPM: 0.38445 | Loss Gap: 0.24611 | Loss Cls: 0.73429
+[eval] Epoch 48 — acc: 0.2000, macro_f1: 0.1989
+
+[train] ===== Época 49/100 =====
+[train] acc: 0.822 | Loss DDPM: 0.38709 | Loss Gap: 0.24817 | Loss Cls: 0.71909
+[eval] Epoch 49 — acc: 0.2200, macro_f1: 0.2186
+
+[train] ===== Época 50/100 =====
+[train] acc: 0.798 | Loss DDPM: 0.37291 | Loss Gap: 0.23847 | Loss Cls: 0.67693
+[eval] Epoch 50 — acc: 0.2000, macro_f1: 0.1980
+
+[train] ===== Época 51/100 =====
+[train] acc: 0.770 | Loss DDPM: 0.38869 | Loss Gap: 0.24812 | Loss Cls: 0.67717
+[eval] Epoch 51 — acc: 0.2000, macro_f1: 0.1989
+
+[train] ===== Época 52/100 =====
+[train] acc: 0.856 | Loss DDPM: 0.38922 | Loss Gap: 0.24830 | Loss Cls: 0.55065
+[eval] Epoch 52 — acc: 0.2200, macro_f1: 0.2085
+
+[train] ===== Época 53/100 =====
+[train] acc: 0.820 | Loss DDPM: 0.37704 | Loss Gap: 0.24014 | Loss Cls: 0.67676
+[eval] Epoch 53 — acc: 0.2200, macro_f1: 0.2050
+
+[train] ===== Época 54/100 =====
+[train] acc: 0.832 | Loss DDPM: 0.36753 | Loss Gap: 0.23446 | Loss Cls: 0.63894
+[eval] Epoch 54 — acc: 0.2000, macro_f1: 0.1913
+
+[train] ===== Época 55/100 =====
+[train] acc: 0.792 | Loss DDPM: 0.39210 | Loss Gap: 0.24986 | Loss Cls: 0.65313
+[eval] Epoch 55 — acc: 0.1600, macro_f1: 0.1593
+
+[train] ===== Época 56/100 =====
+[train] acc: 0.786 | Loss DDPM: 0.37062 | Loss Gap: 0.23614 | Loss Cls: 0.70411
+[eval] Epoch 56 — acc: 0.2200, macro_f1: 0.2071
+
+[train] ===== Época 57/100 =====
+[train] acc: 0.830 | Loss DDPM: 0.39585 | Loss Gap: 0.25191 | Loss Cls: 0.60530
+[eval] Epoch 57 — acc: 0.2400, macro_f1: 0.2300
+
+[train] ===== Época 58/100 =====
+[train] acc: 0.834 | Loss DDPM: 0.37314 | Loss Gap: 0.24176 | Loss Cls: 0.68054
+[eval] Epoch 58 — acc: 0.2400, macro_f1: 0.2321
+
+[train] ===== Época 59/100 =====
+[train] acc: 0.852 | Loss DDPM: 0.36838 | Loss Gap: 0.26002 | Loss Cls: 0.62595
+[eval] Epoch 59 — acc: 0.2400, macro_f1: 0.2227
+
+[train] ===== Época 60/100 =====
+[train] acc: 0.816 | Loss DDPM: 0.37543 | Loss Gap: 0.25549 | Loss Cls: 0.64039
+[eval] Epoch 60 — acc: 0.1800, macro_f1: 0.1800
+
+[train] ===== Época 61/100 =====
+[train] acc: 0.798 | Loss DDPM: 0.39913 | Loss Gap: 0.26334 | Loss Cls: 0.61337
+[eval] Epoch 61 — acc: 0.2200, macro_f1: 0.2090
+
+[train] ===== Época 62/100 =====
+[train] acc: 0.796 | Loss DDPM: 0.38817 | Loss Gap: 0.25757 | Loss Cls: 0.58379
+[eval] Epoch 62 — acc: 0.2600, macro_f1: 0.2580
+
+[train] ===== Época 63/100 =====
+[train] acc: 0.790 | Loss DDPM: 0.39070 | Loss Gap: 0.26836 | Loss Cls: 0.63257
+[eval] Epoch 63 — acc: 0.2600, macro_f1: 0.2517
+
+[train] ===== Época 64/100 =====
+[train] acc: 0.838 | Loss DDPM: 0.37248 | Loss Gap: 0.25918 | Loss Cls: 0.75355
+[eval] Epoch 64 — acc: 0.2800, macro_f1: 0.2838
+
+[train] ===== Época 65/100 =====
+[train] acc: 0.782 | Loss DDPM: 0.40520 | Loss Gap: 0.27206 | Loss Cls: 0.64443
+[eval] Epoch 65 — acc: 0.3000, macro_f1: 0.3053
+
+[train] ===== Época 66/100 =====
+[train] acc: 0.814 | Loss DDPM: 0.40741 | Loss Gap: 0.27738 | Loss Cls: 0.65849
+[eval] Epoch 66 — acc: 0.2600, macro_f1: 0.2195
+
+[train] ===== Época 67/100 =====
+[train] acc: 0.820 | Loss DDPM: 0.39796 | Loss Gap: 0.29909 | Loss Cls: 0.67139
+[eval] Epoch 67 — acc: 0.2600, macro_f1: 0.2483
+
+[train] ===== Época 68/100 =====
+[train] acc: 0.820 | Loss DDPM: 0.40919 | Loss Gap: 0.30651 | Loss Cls: 0.68867
+[eval] Epoch 68 — acc: 0.2800, macro_f1: 0.2846
+
+[train] ===== Época 69/100 =====
+[train] acc: 0.838 | Loss DDPM: 0.39351 | Loss Gap: 0.30080 | Loss Cls: 0.75594
+[eval] Epoch 69 — acc: 0.2600, macro_f1: 0.2370
+
+[train] ===== Época 70/100 =====
+[train] acc: 0.702 | Loss DDPM: 0.38506 | Loss Gap: 0.28691 | Loss Cls: 0.77471
+[eval] Epoch 70 — acc: 0.2600, macro_f1: 0.2324
+
+[train] ===== Época 71/100 =====
+[train] acc: 0.860 | Loss DDPM: 0.40367 | Loss Gap: 0.31522 | Loss Cls: 0.82582
+[eval] Epoch 71 — acc: 0.2600, macro_f1: 0.2414
+
+[train] ===== Época 72/100 =====
+[train] acc: 0.846 | Loss DDPM: 0.35919 | Loss Gap: 0.29891 | Loss Cls: 0.60939
+[eval] Epoch 72 — acc: 0.2800, macro_f1: 0.2826
+
+[train] ===== Época 73/100 =====
+[train] acc: 0.818 | Loss DDPM: 0.41538 | Loss Gap: 0.34200 | Loss Cls: 0.68966
+[eval] Epoch 73 — acc: 0.2000, macro_f1: 0.1995
+
+[train] ===== Época 74/100 =====
+[train] acc: 0.784 | Loss DDPM: 0.37636 | Loss Gap: 0.31176 | Loss Cls: 0.61548
+[eval] Epoch 74 — acc: 0.2200, macro_f1: 0.2111
+
+[train] ===== Época 75/100 =====
+[train] acc: 0.894 | Loss DDPM: 0.39460 | Loss Gap: 0.33412 | Loss Cls: 0.51519
+[eval] Epoch 75 — acc: 0.2000, macro_f1: 0.1551
+
+[train] ===== Época 76/100 =====
+[train] acc: 0.790 | Loss DDPM: 0.37825 | Loss Gap: 0.31992 | Loss Cls: 0.69027
+[eval] Epoch 76 — acc: 0.2800, macro_f1: 0.2811
+
+[train] ===== Época 77/100 =====
+[train] acc: 0.852 | Loss DDPM: 0.39009 | Loss Gap: 0.32934 | Loss Cls: 0.65197
+[eval] Epoch 77 — acc: 0.2200, macro_f1: 0.2178
+
+[train] ===== Época 78/100 =====
+[train] acc: 0.810 | Loss DDPM: 0.38274 | Loss Gap: 0.30367 | Loss Cls: 0.62961
+[eval] Epoch 78 — acc: 0.2400, macro_f1: 0.2218
+
+[train] ===== Época 79/100 =====
+[train] acc: 0.900 | Loss DDPM: 0.38266 | Loss Gap: 0.29271 | Loss Cls: 0.62243
+[eval] Epoch 79 — acc: 0.2200, macro_f1: 0.2165
+
+[train] ===== Época 80/100 =====
+[train] acc: 0.872 | Loss DDPM: 0.37483 | Loss Gap: 0.28351 | Loss Cls: 0.43147
+[eval] Epoch 80 — acc: 0.2000, macro_f1: 0.1911
+
+[train] ===== Época 81/100 =====
+[train] acc: 0.864 | Loss DDPM: 0.35948 | Loss Gap: 0.27003 | Loss Cls: 0.52288
+[eval] Epoch 81 — acc: 0.1400, macro_f1: 0.1479
+
+[train] ===== Época 82/100 =====
+[train] acc: 0.918 | Loss DDPM: 0.38156 | Loss Gap: 0.27125 | Loss Cls: 0.41464
+[eval] Epoch 82 — acc: 0.2200, macro_f1: 0.2215
+
+[train] ===== Época 83/100 =====
+[train] acc: 0.948 | Loss DDPM: 0.35991 | Loss Gap: 0.24935 | Loss Cls: 0.37350
+[eval] Epoch 83 — acc: 0.2400, macro_f1: 0.2329
+
+[train] ===== Época 84/100 =====
+[train] acc: 0.966 | Loss DDPM: 0.36891 | Loss Gap: 0.25392 | Loss Cls: 0.37603
+[eval] Epoch 84 — acc: 0.3000, macro_f1: 0.2839
+
+[train] ===== Época 85/100 =====
+[train] acc: 0.916 | Loss DDPM: 0.37567 | Loss Gap: 0.24958 | Loss Cls: 0.38286
+[eval] Epoch 85 — acc: 0.2800, macro_f1: 0.2517
+
+[train] ===== Época 86/100 =====
+[train] acc: 0.904 | Loss DDPM: 0.36093 | Loss Gap: 0.23535 | Loss Cls: 0.36966
+[eval] Epoch 86 — acc: 0.2200, macro_f1: 0.2163
+
+[train] ===== Época 87/100 =====
+[train] acc: 0.902 | Loss DDPM: 0.34172 | Loss Gap: 0.22532 | Loss Cls: 0.38773
+[eval] Epoch 87 — acc: 0.2800, macro_f1: 0.2708
+
+[train] ===== Época 88/100 =====
+[train] acc: 0.968 | Loss DDPM: 0.37887 | Loss Gap: 0.24869 | Loss Cls: 0.29668
+[eval] Epoch 88 — acc: 0.2400, macro_f1: 0.2329
+
+[train] ===== Época 89/100 =====
+[train] acc: 0.914 | Loss DDPM: 0.36192 | Loss Gap: 0.23718 | Loss Cls: 0.30443
+[eval] Epoch 89 — acc: 0.2200, macro_f1: 0.2067
+
+[train] ===== Época 90/100 =====
+[train] acc: 0.876 | Loss DDPM: 0.35532 | Loss Gap: 0.23204 | Loss Cls: 0.35686
+[eval] Epoch 90 — acc: 0.2400, macro_f1: 0.2311
+
+[train] ===== Época 91/100 =====
+[train] acc: 0.912 | Loss DDPM: 0.36366 | Loss Gap: 0.23181 | Loss Cls: 0.32024
+[eval] Epoch 91 — acc: 0.1800, macro_f1: 0.1732
+
+[train] ===== Época 92/100 =====
+[train] acc: 0.944 | Loss DDPM: 0.35999 | Loss Gap: 0.22687 | Loss Cls: 0.29649
+[eval] Epoch 92 — acc: 0.2000, macro_f1: 0.1928
+
+[train] ===== Época 93/100 =====
+[train] acc: 0.942 | Loss DDPM: 0.37810 | Loss Gap: 0.23719 | Loss Cls: 0.29643
+[eval] Epoch 93 — acc: 0.2200, macro_f1: 0.2189
+
+[train] ===== Época 94/100 =====
+[train] acc: 0.950 | Loss DDPM: 0.36415 | Loss Gap: 0.22837 | Loss Cls: 0.27621
+[eval] Epoch 94 — acc: 0.2200, macro_f1: 0.2115
+
+[train] ===== Época 95/100 =====
+[train] acc: 0.972 | Loss DDPM: 0.35569 | Loss Gap: 0.22253 | Loss Cls: 0.22409
+[eval] Epoch 95 — acc: 0.2200, macro_f1: 0.2107
+
+[train] ===== Época 96/100 =====
+[train] acc: 0.988 | Loss DDPM: 0.35881 | Loss Gap: 0.22401 | Loss Cls: 0.25415
+[eval] Epoch 96 — acc: 0.2200, macro_f1: 0.2163
+
+[train] ===== Época 97/100 =====
+[train] acc: 0.972 | Loss DDPM: 0.35437 | Loss Gap: 0.22094 | Loss Cls: 0.24387
+[eval] Epoch 97 — acc: 0.2400, macro_f1: 0.2369
+
+[train] ===== Época 98/100 =====
+[train] acc: 0.960 | Loss DDPM: 0.37248 | Loss Gap: 0.23178 | Loss Cls: 0.20478
+[eval] Epoch 98 — acc: 0.2200, macro_f1: 0.2206
+
+[train] ===== Época 99/100 =====
+[train] acc: 0.944 | Loss DDPM: 0.36402 | Loss Gap: 0.22621 | Loss Cls: 0.22403
+[eval] Epoch 99 — acc: 0.2400, macro_f1: 0.2378
+
+[train] ===== Época 100/100 =====
+[train] acc: 0.948 | Loss DDPM: 0.33108 | Loss Gap: 0.20616 | Loss Cls: 0.23410
+[eval] Epoch 100 — acc: 0.2400, macro_f1: 0.2369
+
+[test] Evaluando el mejor modelo en el conjunto de test…
+[test] Checkpoint restaurado desde /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/DiffE_original_BCI_processed/best.pt
+[test] Reporte completo:
+
+  metrics:
+            accuracy: 0.2000
+    balanced_accuracy: 0.2000
+            macro_f1: 0.1804
+     macro_precision: 0.1736
+        macro_recall: 0.2000
+         roc_auc_ovo: 0.5315
+                 mcc: 0.0000
+         cohen_kappa: 0.0000
+    confusion_matrix: [[2 3 3 1 1]
+ [2 5 1 0 2]
+ [2 4 2 0 2]
+ [2 2 3 1 2]
+ [4 2 0 4 0]]
+
+  baseline_random:
+            accuracy: 0.2000
+    balanced_accuracy: 0.1966
+            macro_f1: 0.1923
+     macro_precision: 0.1969
+        macro_recall: 0.1966
+         roc_auc_ovo: 0.5000
+                 mcc: -0.0044
+         cohen_kappa: -0.0042
+
+  improvement_%:
+            accuracy: 0.0000
+    balanced_accuracy: 1.7294
+            macro_f1: -6.1934
+     macro_precision: -11.8091
+        macro_recall: 1.7294
+         roc_auc_ovo: 6.3000
+                 mcc: -100.0000
+         cohen_kappa: -100.0000
+
+  confusion_matrix:
+[[2 3 3 1 1]
+ [2 5 1 0 2]
+ [2 4 2 0 2]
+ [2 2 3 1 2]
+ [4 2 0 4 0]]

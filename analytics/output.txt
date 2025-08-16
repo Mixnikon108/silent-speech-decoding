@@ -1,0 +1,26 @@
+Usando solo canales: [1, 6, 12, 14, 15, 27, 32, 33, 34, 36, 37, 45, 56, 50, 47, 44, 59, 35, 38, 21, 54, 46, 9]
+[INFO] Cargando datos desde: /home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/BCI_raw.npz
+[INFO] Filtrando datos para el sujeto 1 (índice interno: 0)
+[INFO] Seleccionando idx slice(0, 300, None) para X_train, slice(0, 50, None) para X_val, slice(0, 50, None) para X_test
+[INFO] Dimensiones finales:
+    - X_train: (300, 64, 795), y_train: torch.Size([300])
+    - X_val:   (50, 64, 795), y_val:   torch.Size([50])
+    - X_test:  (50, 64, 795), y_test:  torch.Size([50])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 64  | Shuffle: True
+    - Batch size (eval) : 64  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 5 batches
+    - Val  : 1 batches
+    - Test : 1 batches
+Epoch 010/100 – train acc: 0.863, val acc: 0.580
+Epoch 020/100 – train acc: 0.980, val acc: 0.660
+Epoch 030/100 – train acc: 0.990, val acc: 0.700
+Epoch 040/100 – train acc: 0.997, val acc: 0.760
+Epoch 050/100 – train acc: 0.997, val acc: 0.740
+Epoch 060/100 – train acc: 1.000, val acc: 0.740
+Epoch 070/100 – train acc: 0.993, val acc: 0.600
+Epoch 080/100 – train acc: 0.993, val acc: 0.760
+Epoch 090/100 – train acc: 1.000, val acc: 0.760
+Epoch 100/100 – train acc: 1.000, val acc: 0.800
+Test – acc: 0.600, macro_f1: 0.593, macro_recall: 0.600

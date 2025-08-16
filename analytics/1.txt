@@ -1,0 +1,50 @@
+[INFO] Cargando datos desde: /home/w314/w314139/PROJECT/silent-speech-decoding/data/processed/BCI2020/BCI_raw.npz
+[INFO] Filtrando datos para el sujeto 1 (índice interno: 0)
+[INFO] Seleccionando idx slice(0, 300, None) para X_train, slice(0, 50, None) para X_val, slice(0, 50, None) para X_test
+[INFO] Dimensiones finales:
+    - X_train: (300, 64, 795), y_train: torch.Size([300])
+    - X_val:   (50, 64, 795), y_val:   torch.Size([50])
+    - X_test:  (50, 64, 795), y_test:  torch.Size([50])
+Train shape: (300, 64, 795); classes=5, chans=64, T=795
+
+Top canales por evidencia (Kruskal FDR + MI):
+    channel      kw_p_adj  kw_significant  kw_eta2_from_maxH    mi_sum
+55       55  1.887360e-07            True           0.141098  0.335625
+13       13  2.199865e-07            True           0.132228  0.310571
+23       23  2.199865e-07            True           0.134604  0.303077
+2         2  6.983140e-07            True           0.121975  0.172616
+48       48  1.013082e-06            True           0.117734  0.414224
+52       52  1.540779e-06            True           0.112340  0.257267
+47       47  1.540779e-06            True           0.112508  0.205835
+22       22  4.790300e-06            True           0.103264  0.181741
+4         4  5.803705e-06            True           0.101042  0.239827
+8         8  1.542400e-05            True           0.093251  0.420318
+
+Ablaciones de identidad de canal (CV accuracy):
+        mode  cv_acc_mean  cv_acc_std
+0       none         0.50    0.060553
+1      fixed         0.50    0.060553
+2  per_trial         0.26    0.022608
+
+=== RESULTADOS TEMPORALES (resumen) ===
+autocorr_lag1: 0.05016722400932038
+autocorr_lag1_p: 0.373134328358209
+MI_time: 1.6094379124341005
+MI_time_p: 1.0
+time_only_classifier_cv_acc_mean: 0.1933333333333333
+time_only_classifier_cv_acc_std: 0.050110987927909696
+cusum_binary_stat: 4.799999999999999
+cusum_binary_p: 0.9950248756218906
+n_trials: 300
+n_classes: 5
+majority_class: 1
+Detalle completo en temporal_structure_summary.json
+
+=== INTERPRETACIÓN RÁPIDA ===
+- Si muchos canales tienen kw_p_adj < 0.05 y MI alta → hay señal discriminativa asociada a canales concretos.
+- En ablation: si acc(none) ≈ acc(fixed) pero acc(per_trial) cae → el modelo depende de la identidad de canal.
+- Time-only clf acc ≈ 0.193 (azar ≈ 0.200). Si >> azar → hay patrón temporal explotable.
+- Autocorr lag1 = 0.0502 (p=0.373); MI(time)=1.6094 (p=1.000); CUSUM p=0.995.
+- Runs test p<0.05 sugiere no-aleatoriedad (posibles bloques).
+
+CSV guardados en: /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/analysis_outputs

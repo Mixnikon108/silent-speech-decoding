@@ -1,0 +1,16 @@
+model,split,accuracy,macro_f1,macro_recall,loss
+mlp,train,0.9765,0.9765,0.9765,0.08081
+mlp,val,0.2321,0.2341,0.2321,5.73205
+mlp,test,0.2679,0.2646,0.2679,5.71281
+cnn,train,1.0000,1.0000,1.0000,0.00247
+cnn,val,0.2232,0.2217,0.2232,5.74398
+cnn,test,0.2455,0.2403,0.2455,5.40563
+eegnet,train,0.8434,0.8434,0.8434,0.42246
+eegnet,val,0.2500,0.2470,0.2500,3.01622
+eegnet,test,0.2411,0.2415,0.2411,3.23659
+shallowconvnet,train,1.0000,1.0000,1.0000,0.00368
+shallowconvnet,val,0.2679,0.2645,0.2679,4.74329
+shallowconvnet,test,0.3080,0.3045,0.3080,5.51385
+deepconvnet,train,0.9642,0.9642,0.9642,0.09690
+deepconvnet,val,0.2411,0.2405,0.2411,4.25636
+deepconvnet,test,0.2321,0.2308,0.2321,4.25793

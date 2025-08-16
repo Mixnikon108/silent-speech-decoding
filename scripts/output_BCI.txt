@@ -1,0 +1,53 @@
+Cargando raw dataset BCI2020...
+[dataset filtered] Sujeto: 01/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 01: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 02/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 02: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 03/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 03: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 04/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 04: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 05/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 05: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 06/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 06: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 07/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 07: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 08/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 08: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 09/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 09: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 10/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 10: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 11/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 11: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 12/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 12: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 13/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 13: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 14/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 14: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+[dataset filtered] Sujeto: 15/15
+Preprocesamiento tipo 1 aplicado.
+Sujeto 15: X_train (795, 64, 300), y_train (5, 300), X_val (795, 64, 50), y_val (5, 50), X_test (795, 64, 50), y_test (5, 50)
+
+ Dimensiones del dataset raw:
+  - Train      : X = (4500, 64, 795), y = (4500,)
+  - Validation : X = (750, 64, 795),  y = (750,)
+  - Test       : X = (750, 64, 795),  y = (750,)
+
+✅ Dataset raw guardado en: data/processed/BCI2020/BCI_LP005.npz

@@ -1,0 +1,62 @@
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/Data_extractions.py:39: RuntimeWarning: Number of records from the header does not match the file size (perhaps the recording was not stopped before exiting). Inferring from the file size.
+  raw_data = mne.io.read_raw_bdf(input_fname=file_name, preload=True,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,
+/home/w314/w314139/PROJECT/silent-speech-decoding/scripts/create_TOL_raw/preprocessTOLraw.py:369: RuntimeWarning: The measurement information indicates a low-pass frequency of 208.0 Hz. The decim=4 parameter will result in a sampling frequency of 256.0 Hz, which can cause aliasing artifacts.
+  epochs_residual = mne.Epochs(raw_residual, events, event_id=event_id,

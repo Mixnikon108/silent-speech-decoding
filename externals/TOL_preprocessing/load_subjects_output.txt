@@ -1,0 +1,37 @@
+
+Cargando sujeto 1...
+   200 trials cargados
+
+Cargando sujeto 2...
+   240 trials cargados
+
+Cargando sujeto 3...
+   180 trials cargados
+
+Cargando sujeto 4...
+   240 trials cargados
+
+Cargando sujeto 5...
+   240 trials cargados
+
+Cargando sujeto 6...
+   216 trials cargados
+
+Cargando sujeto 7...
+   240 trials cargados
+
+Cargando sujeto 8...
+   200 trials cargados
+
+Cargando sujeto 9...
+   240 trials cargados
+
+Cargando sujeto 10...
+   240 trials cargados
+
+==== RESUMEN ====
+Trials totales: 2236
+Shape datos:    (2236, 128, 512) (trials x canales x muestras)
+Shape etiquetas:(2236,) (labels)
+Subjects array: (2236,) (subject per trial)
+✅ Guardado en inner_speech_all_subjects.npz

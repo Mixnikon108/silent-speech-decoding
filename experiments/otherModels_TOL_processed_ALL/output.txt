@@ -1,0 +1,93 @@
+[DATASET] Loading dataset from: TOL_processed.npz
+[data] Cargando datos del dataset TOL
+[INFO] Usando trials de todos los sujetos (concatenados)
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([2236, 128, 512])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([2236, 1, 1]), Std shape: torch.Size([2236, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([2236, 128, 512])
+[INFO] No se aplica padding (dimensión temporal ya es múltiplo de 8): 512
+[INFO] Dimensión temporal final: 512
+[INFO] Shapes finales:
+    - X_train: torch.Size([1788, 128, 512]), y_train: torch.Size([1788])
+    - X_val:   torch.Size([224, 128, 512]), y_val:   torch.Size([224])
+    - X_test:  torch.Size([224, 128, 512]), y_test:  torch.Size([224])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 64  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 28 batches
+    - Val  : 7 batches
+    - Test : 7 batches
+
+▶ Entrenando mlp …
+Epoch 010/100 – train acc: 0.852, val acc: 0.254
+Epoch 020/100 – train acc: 0.921, val acc: 0.254
+Epoch 030/100 – train acc: 0.946, val acc: 0.228
+Epoch 040/100 – train acc: 0.954, val acc: 0.232
+Epoch 050/100 – train acc: 0.967, val acc: 0.254
+Epoch 060/100 – train acc: 0.968, val acc: 0.268
+Epoch 070/100 – train acc: 0.969, val acc: 0.272
+Epoch 080/100 – train acc: 0.982, val acc: 0.246
+Epoch 090/100 – train acc: 0.959, val acc: 0.237
+Epoch 100/100 – train acc: 0.977, val acc: 0.232
+✓ mlp terminado. Test acc = 0.268
+
+
+▶ Entrenando cnn …
+Epoch 010/100 – train acc: 0.504, val acc: 0.268
+Epoch 020/100 – train acc: 0.745, val acc: 0.259
+Epoch 030/100 – train acc: 0.907, val acc: 0.268
+Epoch 040/100 – train acc: 0.956, val acc: 0.254
+Epoch 050/100 – train acc: 0.992, val acc: 0.205
+Epoch 060/100 – train acc: 0.995, val acc: 0.250
+Epoch 070/100 – train acc: 0.988, val acc: 0.214
+Epoch 080/100 – train acc: 0.991, val acc: 0.250
+Epoch 090/100 – train acc: 1.000, val acc: 0.214
+Epoch 100/100 – train acc: 1.000, val acc: 0.223
+✓ cnn terminado. Test acc = 0.246
+
+
+▶ Entrenando eegnet …
+Epoch 010/100 – train acc: 0.491, val acc: 0.272
+Epoch 020/100 – train acc: 0.611, val acc: 0.308
+Epoch 030/100 – train acc: 0.688, val acc: 0.254
+Epoch 040/100 – train acc: 0.706, val acc: 0.259
+Epoch 050/100 – train acc: 0.757, val acc: 0.254
+Epoch 060/100 – train acc: 0.781, val acc: 0.250
+Epoch 070/100 – train acc: 0.782, val acc: 0.263
+Epoch 080/100 – train acc: 0.789, val acc: 0.259
+Epoch 090/100 – train acc: 0.825, val acc: 0.272
+Epoch 100/100 – train acc: 0.843, val acc: 0.250
+✓ eegnet terminado. Test acc = 0.241
+
+
+▶ Entrenando shallowconvnet …
+Epoch 010/100 – train acc: 0.691, val acc: 0.281
+Epoch 020/100 – train acc: 0.909, val acc: 0.308
+Epoch 030/100 – train acc: 0.991, val acc: 0.299
+Epoch 040/100 – train acc: 0.999, val acc: 0.299
+Epoch 050/100 – train acc: 1.000, val acc: 0.281
+Epoch 060/100 – train acc: 1.000, val acc: 0.277
+Epoch 070/100 – train acc: 1.000, val acc: 0.259
+Epoch 080/100 – train acc: 1.000, val acc: 0.277
+Epoch 090/100 – train acc: 1.000, val acc: 0.281
+Epoch 100/100 – train acc: 1.000, val acc: 0.268
+✓ shallowconvnet terminado. Test acc = 0.308
+
+
+▶ Entrenando deepconvnet …
+Epoch 010/100 – train acc: 0.518, val acc: 0.286
+Epoch 020/100 – train acc: 0.719, val acc: 0.179
+Epoch 030/100 – train acc: 0.841, val acc: 0.254
+Epoch 040/100 – train acc: 0.910, val acc: 0.223
+Epoch 050/100 – train acc: 0.919, val acc: 0.246
+Epoch 060/100 – train acc: 0.938, val acc: 0.219
+Epoch 070/100 – train acc: 0.953, val acc: 0.241
+Epoch 080/100 – train acc: 0.953, val acc: 0.246
+Epoch 090/100 – train acc: 0.956, val acc: 0.237
+Epoch 100/100 – train acc: 0.964, val acc: 0.241
+✓ deepconvnet terminado. Test acc = 0.232
+
+
+Benchmark completo → resultados en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/otherModels_TOL_processed_ALL/benchmark_results.csv
