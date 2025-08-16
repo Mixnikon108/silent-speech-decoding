@@ -1,0 +1,33 @@
+preprocess_grid:
+  preprocess: [false]        # << SIN preprocesado
+  enable_bandpass: [false]
+  l_freq: [0.05]             # ignorado al no haber preprocesado
+  h_freq: [null]             # ignorado
+  enable_notch: [false]
+  enable_car: [false]
+  enable_ica: [false]
+  enable_baseline: [false]
+  residual: [false]
+
+models:
+  diffe:
+    variants: ["MOD"]        # solo Diff-E MOD
+    num_epochs: [50]
+    batch_train: [250]
+    batch_eval: [32]
+    seed: [42]
+    alpha: [0.1]
+    n_T: [1000]
+    ddpm_dim: [128]
+    encoder_dim: [256]
+    fc_dim: [512]
+
+  other:
+    models:
+      - ["mlp", "cnn", "eegnet", "shallowconvnet", "deepconvnet"]  # todos
+    epochs: [50]
+    lr: [0.001]
+    weight_decay: [0.0]
+    batch_train: [64]
+    batch_eval: [32]
+    seed: [42]

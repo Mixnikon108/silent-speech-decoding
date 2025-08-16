@@ -157,6 +157,7 @@ class DiffEGrid:
     alpha: List[float] = field(default_factory=lambda: [0.1])
     num_classes: int = 5
     channels: int = 64
+    subject_id: Optional[int] = None
     n_T: List[int] = field(default_factory=lambda: [1000])
     ddpm_dim: List[int] = field(default_factory=lambda: [128])
     encoder_dim: List[int] = field(default_factory=lambda: [256])
@@ -171,6 +172,9 @@ class OtherGrid:
     batch_train: List[int] = field(default_factory=lambda: [64])
     batch_eval: List[int] = field(default_factory=lambda: [32])
     seed: List[int] = field(default_factory=lambda: [42])
+    n_channels: int = 64
+    n_classes: int = 5
+    subject_id: Optional[int] = None
 
 # ---------- Generadores de combinaciones ----------
 def expand_preproc_grid(grid: Dict[str, List[Any]]) -> List[PreprocCfg]:
@@ -188,22 +192,46 @@ def expand_diffe_grid(g: DiffEGrid):
     for variant, ne, bt, be, seed, alpha, nT, dd, ed, fd in itertools.product(
         g.variants, g.num_epochs, g.batch_train, g.batch_eval, g.seed, g.alpha, g.n_T, g.ddpm_dim, g.encoder_dim, g.fc_dim
     ):
-        yield {
+        combo = {
             "variant": variant,
-            "num_epochs": ne, "batch_train": bt, "batch_eval": be,
-            "seed": seed, "alpha": alpha, "n_T": nT,
-            "ddpm_dim": dd, "encoder_dim": ed, "fc_dim": fd,
+            "num_epochs": ne,
+            "batch_train": bt,
+            "batch_eval": be,
+            "seed": seed,
+            "alpha": alpha,
+            "n_T": nT,
+            "ddpm_dim": dd,
+            "encoder_dim": ed,
+            "fc_dim": fd,
+            # siempre propagamos estos:
+            "channels": g.channels,
+            "num_classes": g.num_classes,
         }
+        # subject_id solo si se define (None => no pasar a srun)
+        if g.subject_id is not None:
+            combo["subject_id"] = g.subject_id
+        yield combo
 
 def expand_other_grid(g: OtherGrid):
     for models, ne, lr, wd, bt, be, seed in itertools.product(
         g.models, g.epochs, g.lr, g.weight_decay, g.batch_train, g.batch_eval, g.seed
     ):
-        yield {
+        combo = {
             "models": models,
-            "epochs": ne, "lr": lr, "weight_decay": wd,
-            "batch_train": bt, "batch_eval": be, "seed": seed,
+            "epochs": ne,
+            "lr": lr,
+            "weight_decay": wd,
+            "batch_train": bt,
+            "batch_eval": be,
+            "seed": seed,
+            # siempre propagamos estos:
+            "n_channels": g.n_channels,
+            "n_classes": g.n_classes,
         }
+        # subject_id solo si se define (None => no pasar a srun)
+        if g.subject_id is not None:
+            combo["subject_id"] = g.subject_id
+        yield combo
 
 # ---------- Constructor de sbatch ----------
 def build_sbatch(
