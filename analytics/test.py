@@ -507,3 +507,97 @@
 # print("✅ Boxplot de extremos guardado como 'boxplot_extremos_canal0.png'")
 
 
+import torch
+import numpy as np
+from scipy.spatial.distance import cosine
+from scipy.stats import ttest_ind
+import matplotlib.pyplot as plt
+from pathlib import Path
+from utils import load_data  # Asegúrate de que tienes esta función definida correctamente
+
+# ------------------------
+# 1. Selecciona los datos
+# ------------------------
+
+raw_file = Path("data/processed/BCI2020/filtered_BCI2020.npz")
+Xtr, y_train, Xva, y_val, Xte, y_test = load_data(dataset_file=raw_file, subject_id=1)
+
+# Si tus datos son torch.Tensor, conviértelos a numpy
+if isinstance(Xtr, torch.Tensor): Xtr = Xtr.cpu().numpy()
+if isinstance(Xva, torch.Tensor): Xva = Xva.cpu().numpy()
+if isinstance(Xte, torch.Tensor): Xte = Xte.cpu().numpy()
+
+# Aplana cada muestra a 1D para el cálculo de similitud
+def flat(X):
+    return X.reshape(X.shape[0], -1)   # (N, C, T) -> (N, C*T)
+
+Xtr_flat = flat(Xtr)
+Xva_flat = flat(Xva)
+Xte_flat = flat(Xte)
+
+# ------------------------
+# 2. Calcula similitudes
+# ------------------------
+
+rng = np.random.default_rng(42)
+n_pairs = 1000
+
+def random_pairs(XA, XB, n_pairs=1000):
+    idxA = rng.integers(0, XA.shape[0], size=n_pairs)
+    idxB = rng.integers(0, XB.shape[0], size=n_pairs)
+    return idxA, idxB
+
+def cos_sim(a, b):
+    # Similitud coseno entre dos vectores 1D
+    return 1 - cosine(a, b)
+
+def sim_dist(XA, XB, n_pairs=1000):
+    idxA, idxB = random_pairs(XA, XB, n_pairs)
+    sims = [cos_sim(XA[i], XB[j]) for i, j in zip(idxA, idxB)]
+    return np.array(sims)
+
+sim_train_val   = sim_dist(Xtr_flat, Xva_flat, n_pairs)
+sim_train_test  = sim_dist(Xtr_flat, Xte_flat, n_pairs)
+sim_train_train = sim_dist(Xtr_flat, Xtr_flat, n_pairs)
+
+# ------------------------
+# 3. Estadísticos y visualización
+# ------------------------
+
+print("mean cos(train,val):   ", sim_train_val.mean())
+print("mean cos(train,train): ", sim_train_train.mean())
+print("mean cos(train,test):  ", sim_train_test.mean())
+
+plt.figure(figsize=(7,4))
+plt.hist(sim_train_val,   bins=50, alpha=0.6, label='train–val')
+plt.hist(sim_train_test,  bins=50, alpha=0.6, label='train–test')
+plt.hist(sim_train_train, bins=50, alpha=0.6, label='train–train')
+plt.xlabel("Similitud coseno")
+plt.legend(); plt.title("Distribución de similitud coseno entre particiones")
+plt.tight_layout()
+plt.savefig("cosine_similarity_distributions.png")
+print("✅ Gráfico guardado como 'cosine_similarity_distributions.png'")
+plt.close()
+
+# ------------------------
+# 4. Tests estadísticos
+# ------------------------
+
+t_val, p_val = ttest_ind(sim_train_train, sim_train_val, equal_var=False)
+t_test, p_test = ttest_ind(sim_train_train, sim_train_test, equal_var=False)
+print(f"\n[t-test] train–train vs train–val:  t = {t_val:.2f},  p = {p_val:.2e}")
+print(f"[t-test] train–train vs train–test: t = {t_test:.2f}, p = {p_test:.2e}")
+
+# ------------------------
+# 5. Interpretación automática
+# ------------------------
+
+# Si la media de train-val o train-test es similar a train-train, probable fuga
+def check_leakage(m1, m2, name):
+    if abs(m1-m2) < 0.05:
+        print(f"[!] ALERTA: Similitud {name} ≈ train–train ({m2:.3f} vs {m1:.3f}). Posible data leakage.")
+    else:
+        print(f"[OK] Similitud {name} claramente inferior a train–train ({m2:.3f} vs {m1:.3f})")
+
+check_leakage(sim_train_train.mean(), sim_train_val.mean(), "train–val")
+check_leakage(sim_train_train.mean(), sim_train_test.mean(), "train–test")

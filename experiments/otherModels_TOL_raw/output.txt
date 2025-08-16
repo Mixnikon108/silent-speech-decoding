@@ -1,0 +1,93 @@
+[DATASET] Loading dataset from: TOL_raw.npz
+[data] Cargando datos del dataset TOL
+[INFO] Seleccionando trials 0:200 para sujeto 1
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([200, 128, 512])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([200, 1, 1]), Std shape: torch.Size([200, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([200, 128, 512])
+[INFO] No se aplica padding (dimensión temporal ya es múltiplo de 8): 512
+[INFO] Dimensión temporal final: 512
+[INFO] Shapes finales:
+    - X_train: torch.Size([160, 128, 512]), y_train: torch.Size([160])
+    - X_val:   torch.Size([20, 128, 512]), y_val:   torch.Size([20])
+    - X_test:  torch.Size([20, 128, 512]), y_test:  torch.Size([20])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 64  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 3 batches
+    - Val  : 1 batches
+    - Test : 1 batches
+
+▶ Entrenando mlp …
+Epoch 010/100 – train acc: 0.969, val acc: 0.350
+Epoch 020/100 – train acc: 0.981, val acc: 0.300
+Epoch 030/100 – train acc: 0.963, val acc: 0.250
+Epoch 040/100 – train acc: 0.994, val acc: 0.250
+Epoch 050/100 – train acc: 0.969, val acc: 0.150
+Epoch 060/100 – train acc: 0.975, val acc: 0.250
+Epoch 070/100 – train acc: 0.975, val acc: 0.250
+Epoch 080/100 – train acc: 0.938, val acc: 0.250
+Epoch 090/100 – train acc: 0.975, val acc: 0.200
+Epoch 100/100 – train acc: 0.975, val acc: 0.350
+✓ mlp terminado. Test acc = 0.450
+
+
+▶ Entrenando cnn …
+Epoch 010/100 – train acc: 0.963, val acc: 0.300
+Epoch 020/100 – train acc: 1.000, val acc: 0.350
+Epoch 030/100 – train acc: 1.000, val acc: 0.350
+Epoch 040/100 – train acc: 1.000, val acc: 0.350
+Epoch 050/100 – train acc: 1.000, val acc: 0.300
+Epoch 060/100 – train acc: 1.000, val acc: 0.350
+Epoch 070/100 – train acc: 1.000, val acc: 0.250
+Epoch 080/100 – train acc: 1.000, val acc: 0.300
+Epoch 090/100 – train acc: 1.000, val acc: 0.250
+Epoch 100/100 – train acc: 1.000, val acc: 0.200
+✓ cnn terminado. Test acc = 0.300
+
+
+▶ Entrenando eegnet …
+Epoch 010/100 – train acc: 0.713, val acc: 0.250
+Epoch 020/100 – train acc: 0.894, val acc: 0.200
+Epoch 030/100 – train acc: 0.969, val acc: 0.250
+Epoch 040/100 – train acc: 1.000, val acc: 0.300
+Epoch 050/100 – train acc: 1.000, val acc: 0.200
+Epoch 060/100 – train acc: 1.000, val acc: 0.350
+Epoch 070/100 – train acc: 1.000, val acc: 0.300
+Epoch 080/100 – train acc: 1.000, val acc: 0.300
+Epoch 090/100 – train acc: 1.000, val acc: 0.250
+Epoch 100/100 – train acc: 1.000, val acc: 0.300
+✓ eegnet terminado. Test acc = 0.250
+
+
+▶ Entrenando shallowconvnet …
+Epoch 010/100 – train acc: 0.900, val acc: 0.200
+Epoch 020/100 – train acc: 1.000, val acc: 0.200
+Epoch 030/100 – train acc: 1.000, val acc: 0.200
+Epoch 040/100 – train acc: 1.000, val acc: 0.200
+Epoch 050/100 – train acc: 1.000, val acc: 0.250
+Epoch 060/100 – train acc: 1.000, val acc: 0.200
+Epoch 070/100 – train acc: 1.000, val acc: 0.250
+Epoch 080/100 – train acc: 1.000, val acc: 0.300
+Epoch 090/100 – train acc: 1.000, val acc: 0.250
+Epoch 100/100 – train acc: 1.000, val acc: 0.250
+✓ shallowconvnet terminado. Test acc = 0.250
+
+
+▶ Entrenando deepconvnet …
+Epoch 010/100 – train acc: 0.856, val acc: 0.350
+Epoch 020/100 – train acc: 0.969, val acc: 0.300
+Epoch 030/100 – train acc: 0.994, val acc: 0.500
+Epoch 040/100 – train acc: 1.000, val acc: 0.500
+Epoch 050/100 – train acc: 1.000, val acc: 0.450
+Epoch 060/100 – train acc: 1.000, val acc: 0.400
+Epoch 070/100 – train acc: 1.000, val acc: 0.350
+Epoch 080/100 – train acc: 1.000, val acc: 0.500
+Epoch 090/100 – train acc: 1.000, val acc: 0.500
+Epoch 100/100 – train acc: 1.000, val acc: 0.450
+✓ deepconvnet terminado. Test acc = 0.300
+
+
+Benchmark completo → resultados en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/otherModels_TOL_raw/benchmark_results.csv

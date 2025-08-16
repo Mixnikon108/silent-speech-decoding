@@ -233,6 +233,22 @@ def load_all_subjects(apply_preprocessing : bool = False):
     X_test  = np.concatenate(X_test,  axis=2)
     y_test  = np.concatenate(y_test,  axis=1)
 
+
+    def _prep_X(arr):
+        x = np.transpose(arr, (2, 1, 0)).astype(np.float32)  # (T, C, L)
+        return x
+
+    def _prep_y(arr):
+        return np.argmax(arr, axis=0)  # (T,)
+
+    X_train = _prep_X(X_train)
+    y_train = _prep_y(y_train)
+    X_val   = _prep_X(X_val)
+    y_val   = _prep_y(y_val)
+    X_test  = _prep_X(X_test)
+    y_test  = _prep_y(y_test)
+
+
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 
@@ -248,7 +264,7 @@ print(f"  - Train      : X = {X_train.shape}, y = {y_train.shape}")
 print(f"  - Validation : X = {X_val.shape},  y = {y_val.shape}")
 print(f"  - Test       : X = {X_test.shape},  y = {y_test.shape}")
 
-raw_dataset_file = processed_dir / "raw_BCI2020.npz"
+raw_dataset_file = processed_dir / "BCI_raw.npz"
 
 np.savez_compressed(raw_dataset_file,
                     X_train=X_train, y_train=y_train,
@@ -258,7 +274,8 @@ np.savez_compressed(raw_dataset_file,
 
 print(f"\n✅ Dataset raw guardado en: {raw_dataset_file.relative_to(project_dir)}")
 
-print("Cargando dataset filtrado BCI2020...")
+
+print("\nCargando dataset filtrado BCI2020...")
 
 X_train_f, y_train_f, X_val_f, y_val_f, X_test_f, y_test_f = load_all_subjects(apply_preprocessing=True)
 
@@ -267,7 +284,7 @@ print(f"  - Train      : X = {X_train.shape}, y = {y_train.shape}")
 print(f"  - Validation : X = {X_val.shape},  y = {y_val.shape}")
 print(f"  - Test       : X = {X_test.shape},  y = {y_test.shape}")
 
-filtered_dataset_file = processed_dir / "filtered_BCI2020.npz"
+filtered_dataset_file = processed_dir / "BCI_processed.npz"
 
 np.savez_compressed(filtered_dataset_file,
                     X_train=X_train_f, y_train=y_train_f,

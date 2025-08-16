@@ -30,7 +30,7 @@ from EMG_Control import EMG_control_single_th
 # Processing Variables
 
 # Root where the raw data are stored
-root_dir = '../'
+root_dir = r'/home/w314/w314139/PROJECT/silent-speech-decoding/data/raw/TOL/'
 
 # Root where the structured data will be saved
 # It can be changed and saved in other direction
@@ -214,7 +214,7 @@ for N_S in N_Subj_arr:
                                detrend=0, decim=DS_rate, baseline=None)
 
         # ICA Prosessing
-
+        ICA_bool = False
         if ICA_bool:
             # Get a full trials including EXG channels
             picks_vir = mne.pick_types(rawdata.info, eeg=True,
@@ -278,6 +278,14 @@ for N_S in N_Subj_arr:
         file_name = file_path + '/' + Num_s + '_ses-0' + str(N_B) + '_eeg-epo.fif'      # noqa
         epochsEEG.save(file_name, fmt='double',
                        split_size='2GB', overwrite=True)
+        
+        # justo antes de add_condition_tag…
+        print(">>>>IDs únicos de evento y conteos:", np.unique(events[:,2], return_counts=True))
+        print(">>>>Total events rows:", events.shape[0])
+        # ahora llama a la función original (sin wrapper)
+        mod_tag = add_condition_tag(events)
+        print(">>>>Total tags generated:", mod_tag.shape[0])
+
 
         # Standarize and save events
         events = add_condition_tag(events)

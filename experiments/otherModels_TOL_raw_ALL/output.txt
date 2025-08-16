@@ -1,0 +1,93 @@
+[DATASET] Loading dataset from: TOL_raw.npz
+[data] Cargando datos del dataset TOL
+[INFO] Usando trials de todos los sujetos (concatenados)
+[INFO] Aplicando z-score normalization por trial
+    - Forma de entrada (esperada): (trials, canales, muestras) = torch.Size([2236, 128, 512])
+    - Calculando media y desviación estándar por trial
+    - Mean shape: torch.Size([2236, 1, 1]), Std shape: torch.Size([2236, 1, 1])
+    - Normalización completada. Forma de salida: torch.Size([2236, 128, 512])
+[INFO] No se aplica padding (dimensión temporal ya es múltiplo de 8): 512
+[INFO] Dimensión temporal final: 512
+[INFO] Shapes finales:
+    - X_train: torch.Size([1788, 128, 512]), y_train: torch.Size([1788])
+    - X_val:   torch.Size([224, 128, 512]), y_val:   torch.Size([224])
+    - X_test:  torch.Size([224, 128, 512]), y_test:  torch.Size([224])
+[INFO] Creando DataLoaders:
+    - Batch size (train): 64  | Shuffle: True
+    - Batch size (eval) : 32  | Shuffle: False
+[INFO] Número de batches:
+    - Train: 28 batches
+    - Val  : 7 batches
+    - Test : 7 batches
+
+▶ Entrenando mlp …
+Epoch 010/100 – train acc: 0.676, val acc: 0.250
+Epoch 020/100 – train acc: 0.793, val acc: 0.286
+Epoch 030/100 – train acc: 0.882, val acc: 0.246
+Epoch 040/100 – train acc: 0.925, val acc: 0.263
+Epoch 050/100 – train acc: 0.935, val acc: 0.263
+Epoch 060/100 – train acc: 0.930, val acc: 0.254
+Epoch 070/100 – train acc: 0.949, val acc: 0.228
+Epoch 080/100 – train acc: 0.960, val acc: 0.263
+Epoch 090/100 – train acc: 0.969, val acc: 0.268
+Epoch 100/100 – train acc: 0.964, val acc: 0.250
+✓ mlp terminado. Test acc = 0.290
+
+
+▶ Entrenando cnn …
+Epoch 010/100 – train acc: 0.535, val acc: 0.237
+Epoch 020/100 – train acc: 0.793, val acc: 0.246
+Epoch 030/100 – train acc: 0.882, val acc: 0.219
+Epoch 040/100 – train acc: 0.955, val acc: 0.223
+Epoch 050/100 – train acc: 0.968, val acc: 0.214
+Epoch 060/100 – train acc: 0.974, val acc: 0.237
+Epoch 070/100 – train acc: 0.984, val acc: 0.250
+Epoch 080/100 – train acc: 0.985, val acc: 0.241
+Epoch 090/100 – train acc: 0.992, val acc: 0.214
+Epoch 100/100 – train acc: 0.993, val acc: 0.246
+✓ cnn terminado. Test acc = 0.241
+
+
+▶ Entrenando eegnet …
+Epoch 010/100 – train acc: 0.463, val acc: 0.272
+Epoch 020/100 – train acc: 0.583, val acc: 0.268
+Epoch 030/100 – train acc: 0.636, val acc: 0.254
+Epoch 040/100 – train acc: 0.701, val acc: 0.259
+Epoch 050/100 – train acc: 0.713, val acc: 0.223
+Epoch 060/100 – train acc: 0.742, val acc: 0.232
+Epoch 070/100 – train acc: 0.776, val acc: 0.246
+Epoch 080/100 – train acc: 0.795, val acc: 0.237
+Epoch 090/100 – train acc: 0.804, val acc: 0.250
+Epoch 100/100 – train acc: 0.833, val acc: 0.254
+✓ eegnet terminado. Test acc = 0.250
+
+
+▶ Entrenando shallowconvnet …
+Epoch 010/100 – train acc: 0.724, val acc: 0.174
+Epoch 020/100 – train acc: 0.953, val acc: 0.219
+Epoch 030/100 – train acc: 0.989, val acc: 0.223
+Epoch 040/100 – train acc: 0.999, val acc: 0.228
+Epoch 050/100 – train acc: 0.994, val acc: 0.205
+Epoch 060/100 – train acc: 0.999, val acc: 0.210
+Epoch 070/100 – train acc: 1.000, val acc: 0.196
+Epoch 080/100 – train acc: 0.902, val acc: 0.214
+Epoch 090/100 – train acc: 1.000, val acc: 0.219
+Epoch 100/100 – train acc: 1.000, val acc: 0.210
+✓ shallowconvnet terminado. Test acc = 0.326
+
+
+▶ Entrenando deepconvnet …
+Epoch 010/100 – train acc: 0.473, val acc: 0.232
+Epoch 020/100 – train acc: 0.666, val acc: 0.272
+Epoch 030/100 – train acc: 0.814, val acc: 0.246
+Epoch 040/100 – train acc: 0.878, val acc: 0.263
+Epoch 050/100 – train acc: 0.910, val acc: 0.250
+Epoch 060/100 – train acc: 0.930, val acc: 0.263
+Epoch 070/100 – train acc: 0.947, val acc: 0.246
+Epoch 080/100 – train acc: 0.955, val acc: 0.304
+Epoch 090/100 – train acc: 0.957, val acc: 0.272
+Epoch 100/100 – train acc: 0.969, val acc: 0.277
+✓ deepconvnet terminado. Test acc = 0.290
+
+
+Benchmark completo → resultados en /media/beegfs/home/w314/w314139/PROJECT/silent-speech-decoding/experiments/otherModels_TOL_raw_ALL/benchmark_results.csv

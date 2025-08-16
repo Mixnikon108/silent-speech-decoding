@@ -154,4 +154,5 @@ for e in entries:
         print(f"\n❌  Tamaño incorrecto en {dest_path.name}; se reanudará la próxima vez.")
 
 progress.stop()
+(DEST_ROOT / "derivatives").rename(DEST_ROOT / "derivatives_og")
 print("\n✅  Todos los archivos descargados o tiempo agotado sin errores.")

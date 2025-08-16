@@ -86,7 +86,7 @@ def EMG_control_single_th(root_dir: str, N_Subj_arr: list, N_block_arr: list,
         # Blocks
         for N_B in N_block_arr:
             # Load baseline data
-            datatype = "Baseline"
+            datatype = "baseline"
             X_baseline, Y = extract_block_data_from_subject(root_dir, N_S,
                                                             datatype, N_B)
 
@@ -126,7 +126,7 @@ def EMG_control_single_th(root_dir: str, N_Subj_arr: list, N_block_arr: list,
 # =============================================================================
 # =============================================================================
             # Load EOG and EMG data
-            datatype = "EXG"
+            datatype = "exg"
             EMG, Y = extract_block_data_from_subject(root_dir, N_S,
                                                      datatype, N_B)
 

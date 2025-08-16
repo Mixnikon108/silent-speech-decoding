@@ -98,8 +98,8 @@ def transform_for_classifier(
 # -----------------------------------------------------------------------------#
 #                       Low-level loading helpers (MNE)                        #
 # -----------------------------------------------------------------------------#
-def _events_file(root: pathlib.Path, subj: str, ses: int) -> pathlib.Path:
-    return root / "derivatives" / subj / f"ses-0{ses}" / f"{subj}_ses-0{ses}_events.dat"
+def _events_file(root: pathlib.Path, subj: str, ses: int, folder : str) -> pathlib.Path:
+    return root / folder / subj / f"ses-0{ses}" / f"{subj}_ses-0{ses}_events.dat"
 
 
 def _epochs_file(root: pathlib.Path, subj: str, ses: int, kind: str) -> pathlib.Path:
@@ -112,9 +112,9 @@ def _epochs_file(root: pathlib.Path, subj: str, ses: int, kind: str) -> pathlib.
     )
 
 
-def load_events(root: pathlib.Path, subj_idx: int, ses: int) -> np.ndarray:
+def load_events(root: pathlib.Path, subj_idx: int, ses: int, folder : str) -> np.ndarray:
     """Load *.dat events for one session."""
-    return np.load(_events_file(root, subject_name(subj_idx), ses), allow_pickle=True)
+    return np.load(_events_file(root, subject_name(subj_idx), ses, folder), allow_pickle=True)
 
 
 def extract_subject(
@@ -122,6 +122,7 @@ def extract_subject(
     subj_idx: int,
     *,
     kind: str = "eeg",
+    folder : str,
     sessions: Tuple[int, int, int] = (1, 2, 3),
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Load all requested sessions for a subject and stack trials."""
@@ -133,7 +134,7 @@ def extract_subject(
     data, events = [], []
 
     for ses in sessions:
-        events.append(load_events(root, subj_idx, ses))
+        events.append(load_events(root, subj_idx, ses, folder))
         epochs = mne.read_epochs(
             _epochs_file(root, subj, ses, kind), verbose="WARNING"
         ).get_data()
@@ -145,51 +146,74 @@ def extract_subject(
 # -----------------------------------------------------------------------------#
 #                                     main                                     #
 # -----------------------------------------------------------------------------#
+def process_TOL_dataset(folder: str, output_filename: str, type_f: str, data_root: pathlib.Path):
+    all_x, all_y, subj_id = [], [], []
 
-DATA_ROOT = pathlib.Path(__file__).resolve().parent.parent / "data" / "raw" / "TOL"
+    print(f"[{type_f}] Cargando dataset TOL...")
 
-FS = 256
-T_START, T_END = 1.5, 3.5
-SUBJECTS = range(1, 11)
+    for subj in range(1, 11):
+        print(f"Cargando sujeto {subj:02d}…")
+        try:
+            x, y = extract_subject(data_root, subj, kind="eeg", folder=folder)
+            x = select_time_window(x, fs=256, t_start=1.5, t_end=3.5)
 
-all_x, all_y, subj_id = [], [], []
+            classes = [["Up"], ["Down"], ["Right"], ["Left"]]
+            conditions = [["Inner"]] * 4
+            x, y_lbl = transform_for_classifier(x, y, classes, conditions)
 
-print("Cargando dataset TOL...")
+            all_x.append(x)
+            all_y.append(y_lbl)
+            subj_id.append(np.full_like(y_lbl, subj))
+            print(f"   ↳ {x.shape[0]} trials")
+        except Exception as exc:
+            print(f"   ⚠️  skipped (reason: {exc})")
 
-for subj in SUBJECTS:
-    print(f"Cargando sujeto {subj:02d}…")
-    try:
-        x, y = extract_subject(DATA_ROOT, subj, kind="eeg")
-        x = select_time_window(x, fs=FS, t_start=T_START, t_end=T_END)
+    if not all_x:
+        raise RuntimeError("No subjects processed successfully.")
 
-        classes = [["Up"], ["Down"], ["Right"], ["Left"]]
-        conditions = [["Inner"]] * 4
-        x, y_lbl = transform_for_classifier(x, y, classes, conditions)
-
-        all_x.append(x)
-        all_y.append(y_lbl)
-        subj_id.append(np.full_like(y_lbl, subj))
-        print(f"   ↳ {x.shape[0]} trials")
-    except Exception as exc:
-        print(f"   ⚠️  skipped (reason: {exc})")
-
-if not all_x:
-    raise RuntimeError("No subjects processed successfully.")
-
-X_all = np.vstack(all_x)
-Y_all = np.concatenate(all_y)
-Subjects_all = np.concatenate(subj_id)
-
-print("\n Dimensiones del dataset TOL:")
-print(f"  - Total trials : {X_all.shape[0]}")
-print(f"  - Data shape   : {X_all.shape}  # trials × channels × samples")
-print(f"  - Labels shape : {Y_all.shape}")
-print(f"  - Subjects     : {Subjects_all.shape}")
+    X_all = np.vstack(all_x)
+    Y_all = np.concatenate(all_y)
+    Subjects_all = np.concatenate(subj_id)
 
 
-output_path = (
-pathlib.Path(__file__).resolve().parent.parent / "data" / "processed" / "TOL" / "inner_speech_all_subjects.npz"
+
+    # Print dataset summary
+    print(f"\n Dimensiones del dataset TOL {type_f}:")
+    print(f"  - Total trials : {X_all.shape[0]}")
+    print(f"  - Data shape   : {X_all.shape}  # trials × channels × samples")
+    print(f"  - Labels shape : {Y_all.shape}")
+    unique, counts = np.unique(Subjects_all, return_counts=True)
+    print("  - Trials por sujeto:")
+    for u, c in zip(unique, counts):
+        print(f"     Sujeto {u:02d} : {c} trials")
+
+    output_path = (
+        pathlib.Path(__file__).resolve().parent.parent / "data" / "processed" / "TOL" / output_filename
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(output_path, X=X_all, Y=Y_all, Subjects=Subjects_all)
+    print(f"\n✅ Dataset TOL {type_f} guardado en: {output_path}\n")
+# -----------------------------------------------------------------------------#
+
+data_root = pathlib.Path(__file__).resolve().parent.parent / "data" / "raw" / "TOL"
+
+# Create raw dataset --- derivatives
+process_TOL_dataset(
+    folder="derivatives",
+    output_filename="TOL_raw.npz",
+    type_f="raw",
+    data_root=data_root
 )
 
-np.savez(output_path, X=X_all, Y=Y_all, Subjects=Subjects_all)
-print(f"\n✅ Dataset TOL guardado en: {output_path}")
+# Create filtered dataset --- derivatives_og
+process_TOL_dataset(
+    folder="derivatives_og",
+    output_filename="TOL_processed.npz",
+    type_f="processed",
+    data_root=data_root
+)
+
+
+
+
+
