@@ -90,6 +90,17 @@ def preprocess_subject(
     Devuelve: xt_proc, yt, xv_proc, yv, xts_proc, yts
     Si residual=True, devuelve R = X_raw - X_filtrado.
     """
+    
+    # ---- PRINT DEL PIPELINE ----
+    print("\n=== Preprocesamiento configurado ===")
+    print(f"Bandpass: {enable_bandpass} | l_freq={l_freq}, h_freq={h_freq}")
+    print(f"Notch (60Hz): {enable_notch}")
+    print(f"CAR: {enable_car}")
+    print(f"ICA: {enable_ica}")
+    print(f"Baseline: {enable_baseline}")
+    print(f"Residual: {residual}")
+    print("===================================\n")
+
     sfreq = 256.0
     montage = 'standard_1020'
 
