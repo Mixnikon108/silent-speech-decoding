@@ -80,7 +80,7 @@ def load_subject(sid: str):
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 
-
+# Preprocesado quedandonos con la banda de interés (0 - 0.05 Hz)
 def preprocess_subject_1(xt, yt, xv, yv, xts, yts):
     """
     Devuelve el residuo: señal original - señal filtrada con HP(0.05 Hz).
