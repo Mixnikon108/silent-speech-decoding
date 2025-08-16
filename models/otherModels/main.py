@@ -205,14 +205,6 @@ class DeepConvNet(nn.Module):
         x = x.view(x.size(0), -1)
         return self.classifier(x)
 
-# Custom functional layers for ShallowConvNet
-class Square(nn.Module):
-    def forward(self, x):
-        return x ** 2
-class Log(nn.Module):
-    def forward(self, x):
-        return torch.log(torch.clamp(x, min=1e-6))
-
 MODEL_ZOO: Dict[str, Callable[..., nn.Module]] = {
     "mlp": MLPClassifier,
     "cnn": SimpleCNN,

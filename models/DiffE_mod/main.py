@@ -1,4 +1,5 @@
 """
+DIFFE_MOD
 train.py — Lanzador de entrenamiento para Diff‑E (EEG imagined‑speech).
 
 Ejemplo de uso:
