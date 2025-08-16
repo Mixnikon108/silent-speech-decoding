@@ -11,7 +11,7 @@ preprocess_grid:
 
 models:
   diffe:
-    variants: ["MOD"]        # solo Diff-E MOD
+    variants: ["MOD"]
     num_epochs: [50]
     batch_train: [250]
     batch_eval: [32]
@@ -21,13 +21,21 @@ models:
     ddpm_dim: [128]
     encoder_dim: [256]
     fc_dim: [512]
+    num_classes: 5
+    channels: 64
+    subject_id: 1
 
   other:
     models:
-      - ["mlp", "cnn", "eegnet", "shallowconvnet", "deepconvnet"]  # todos
+      - ["mlp","cnn","eegnet","shallowconvnet","deepconvnet"]
     epochs: [50]
     lr: [0.001]
     weight_decay: [0.0]
     batch_train: [64]
     batch_eval: [32]
     seed: [42]
+    n_classes: 5
+    n_channels: 64
+    subject_id: 1
+    
+
