@@ -1,0 +1,39 @@
+preprocess_grid:
+  preprocess: [true]        # << SIN preprocesado
+  enable_bandpass: [true]
+  l_freq: [0.01, 0.05, 0.1, 0.5, 1]             # ignorado al no haber preprocesado
+  h_freq: [128]             # ignorado
+  enable_notch: [false]
+  enable_car: [false]
+  enable_ica: [false]
+  enable_baseline: [false]
+  residual: [true, false]
+
+models:
+  diffe:
+    variants: ["MOD", "TF", "AT"]
+    num_epochs: [50]
+    batch_train: [250]
+    batch_eval: [32]
+    seed: [42, 7, 21]
+    alpha: [1]
+    n_T: [100]
+    ddpm_dim: [128]
+    encoder_dim: [64]
+    fc_dim: [64]
+    num_classes: 5
+    channels: 64
+
+  other:
+    models:
+      - ["mlp","cnn","eegnet","shallowconvnet","deepconvnet"]
+    epochs: [50]
+    lr: [0.001]
+    weight_decay: [0.0]
+    batch_train: [64]
+    batch_eval: [32]
+    seed: [42, 7, 21]
+    n_classes: 5
+    n_channels: 64
+    
+

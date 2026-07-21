@@ -1,0 +1,13 @@
+# Normalize line endings; store text as LF in the repo.
+* text=auto eol=lf
+
+# Shell scripts must stay LF (they run on the Linux SLURM cluster).
+*.sh text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.npz binary
+*.npy binary

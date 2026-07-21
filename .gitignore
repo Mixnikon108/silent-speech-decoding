@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Environments
+venv/
+.venv/
+env/
+
+# Data (downloaded with scripts/download_*.py)
+data/raw/BCI2020/*
+!data/raw/BCI2020/.gitkeep
+data/raw/TOL/*
+!data/raw/TOL/.gitkeep
+data/processed/BCI2020/*
+!data/processed/BCI2020/.gitkeep
+data/processed/TOL/*
+!data/processed/TOL/.gitkeep
+
+# Experiment outputs (checkpoints / logs are not versioned; see results/ for metrics)
+*.pt
+*.pth
+*.ckpt
+*.log
+*.out
+*.err
+slurm-*.out
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
